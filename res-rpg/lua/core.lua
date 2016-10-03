@@ -1,4 +1,7 @@
 local core = {
+	screenwidth = 768,
+	screenheight = 512,
+
 	black = 0x00181818,
 	white = 0x00FFFFFF
 }
