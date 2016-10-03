@@ -1,0 +1,1 @@
+start ActinidiaGo.exe DirectMode
