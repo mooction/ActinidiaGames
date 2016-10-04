@@ -19,8 +19,10 @@ Snapshots:
 
 ## How to build games
 
-Jsut edit scripts in `res\lua\`, using `luac.exe` to check syntax.
-*ActinidiaMapEditor* load images in `res\scene`.
+* Edit scripts in `res\lua\`, do not modify `main.lua` and `core.lua`.
+* Using `luac.exe` to check syntax, using `ActinidiaMapEditor.exe` to build tile maps.
+
+> *ActinidiaMapEditor* load images in `res\scene`.
 
 ## How to publish
 
