@@ -13,6 +13,9 @@ Snapshots:
 * [RPG](http://7nas1f.com1.z0.glb.clouddn.com/actinidia_prev1.png)
 * [RPG](http://7nas1f.com1.z0.glb.clouddn.com/actinidia_prev2.png)
 * [RPG](http://7nas1f.com1.z0.glb.clouddn.com/actinidia_prev3.png)
+* [FlappyBird](http://7nas1f.com1.z0.glb.clouddn.com/flappybird-1.png)
+* [FlappyBird](http://7nas1f.com1.z0.glb.clouddn.com/flappybird-2.png)
+* [FlappyBird](http://7nas1f.com1.z0.glb.clouddn.com/flappybird-3.png)
 
 ## How to build games
 
