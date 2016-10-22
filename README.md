@@ -6,7 +6,7 @@ These are products made by [Actinidia](https://github.com/mooction/Actinidia).
 
 ## How to play
 
-* For example, if you want to play *rpg*, rename `res-rpg` as `res` 
+* For example, if you want to play *rpg*, rename `res-rpg` with `res` 
 * Execute `DirectMode.bat` to play.
 
 Snapshots:
@@ -27,7 +27,5 @@ Snapshots:
 ## How to publish
 
 * Drag `res` folder onto `APacker.exe`
-* Zip `ActinidiaGo.exe`, `bass.dll`, `res.pak`, `res.dat`
-* Share the zip file with others
-* Extract the zip file
-* Player double click `ActinidiaGo.exe` to enjoy.
+* Pack `ActinidiaGo.exe`, `bass.dll`, `res.pak`, `res.dat`
+* Share with others
