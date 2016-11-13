@@ -5,6 +5,8 @@ local current = {}
 
 --[[ global
 ======================================================]]
+core.screenwidth=768		-- 之前的分辨率是768x512
+core.screenheight=512		-- 所以先重置分辨率
 
 lBird=36
 rBird=18
@@ -208,9 +210,9 @@ function current.OnPaint(WndGraphic)
 			DisplayGameOver(g_temp);		-- 显示“游戏结束”字样及分数
 		end
 		-- 显示
-		PasteToWnd(WndGraphic,g_temp);
+		PasteToWndEx(WndGraphic,g_temp,0,0,1024,768,0,0,core.screenwidth,core.screenheight);
 	elseif gamepause then					-- 游戏暂停时
-		PasteToWnd(WndGraphic,g_temp);		-- 显示
+		PasteToWndEx(WndGraphic,g_temp,0,0,1024,768,0,0,core.screenwidth,core.screenheight);		-- 显示
 	else
 		-- 游戏未开始，显示DEMO
 		-- 开始绘图（更新下一帧）
@@ -224,13 +226,13 @@ function current.OnPaint(WndGraphic)
 			PasteToImageEx(g_temp, g_caption, 250, 100, 300, 92, 0, 0, 300, 92);
 			PasteToImageEx(g_temp, g_caption, 250, 200, 227, 134, 0, 174, 227, 134);
 
-			PasteToWnd(WndGraphic, g_temp)	-- 显示
+			PasteToWndEx(WndGraphic, g_temp,0,0,1024,768,0,0,core.screenwidth,core.screenheight)	-- 显示
 		else
 			if demo_skip then
 				demo_skip=false;
 				-- 在屏幕中央显示demo w:400 h:225 => x = 184 y = 143
 				PasteToImageEx(g_temp, g_demo, 184, 143, 400, 225, 0, nDemo * 225, 400, 225);
-				PasteToWnd(WndGraphic, g_temp);		-- 显示
+				PasteToWndEx(WndGraphic, g_temp,0,0,1024,768,0,0,core.screenwidth,core.screenheight);		-- 显示
 				nDemo = nDemo +1;
 			else
 				demo_skip=true

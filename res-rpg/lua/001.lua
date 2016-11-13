@@ -6,6 +6,8 @@ local current = {}
 
 --[[ 全局定义
 ======================================================]]
+core.screenwidth=768
+core.screenheight=512
 
 g_scene = nil	-- 场景图
 
@@ -126,7 +128,7 @@ function current.OnPaint(WndGraphic)
 	end
 
 
-	PasteToWnd(WndGraphic,g_temp)	-- 显示
+	PasteToWndEx(WndGraphic,g_temp,0,0,1024,768,0,0,core.screenwidth,core.screenheight)	-- 显示
 	DeleteImage(g_temp)
 	return ""
 end
