@@ -1,5 +1,5 @@
 local core = {
-	screenwidth = 1024,
+	screenwidth = 1024,	-- on Windows, it's 1024; on Android, it's your device's screen width
 	screenheight = 768,
 
 	black = 0x00181818,

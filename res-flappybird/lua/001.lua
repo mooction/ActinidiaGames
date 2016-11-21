@@ -1,12 +1,10 @@
-local core = load(GetText("res\\lua\\core.lua"))()
-
 local current = {}
 --encode: Chinese use GBK
 
 --[[ global
 ======================================================]]
-core.screenwidth=768		-- 之前的分辨率是768x512
-core.screenheight=512		-- 所以先重置分辨率
+core.screenwidth=768		-- 重置分辨率到768x512
+core.screenheight=512		-- 绘制到屏幕上再拉伸
 
 lBird=36
 rBird=18

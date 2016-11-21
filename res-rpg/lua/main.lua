@@ -1,4 +1,6 @@
 -- entrance
+core = load(GetText("res\\lua\\core.lua"))()
+
 local custom = nil
 function OnCreate()
 	script = load(GetText("res\\lua\\001.lua"))
