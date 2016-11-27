@@ -1,4 +1,3 @@
-local core = load(GetText("res\\lua\\core.lua"))()
 local rpg = load(GetText("res\\lua\\rpg.lua"))()
 local current = {}
 --注意保存lua编码为GBK
@@ -6,6 +5,8 @@ local current = {}
 
 --[[ 全局定义
 ======================================================]]
+screenwidth = core.screenwidth
+screenheight = core.screenheight
 core.screenwidth=768
 core.screenheight=512
 
@@ -128,7 +129,7 @@ function current.OnPaint(WndGraphic)
 	end
 
 
-	PasteToWndEx(WndGraphic,g_temp,0,0,1024,768,0,0,core.screenwidth,core.screenheight)	-- 显示
+	PasteToWndEx(WndGraphic,g_temp,0,0,screenwidth,screenheight,0,0,core.screenwidth,core.screenheight)	-- 显示
 	DeleteImage(g_temp)
 	return ""
 end
@@ -147,7 +148,6 @@ function current.OnClose()
 	DeleteImage(g_portrait)
 	DeleteImage(g_portrait2)
 	DeleteImage(g_loading)
-	return 0 -- 0退出1取消
 end
 
 function current.OnKeyDown(nChar)
@@ -203,8 +203,12 @@ function current.OnRButtonDown(x,y)
 	isRMouseDown = true
 end
 
-function current.OnLButtonUp(x,y)
+function current.OnRButtonUp(x,y)
 	isRMouseDown = false
+end
+
+function current.OnMouseMove(x,y)
+
 end
 
 function current.OnSetFocus()

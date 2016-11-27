@@ -27,7 +27,7 @@ function OnPaint(WndGraphic)
 end
 
 function OnClose()
-	return custom.OnClose()
+	custom.OnClose()
 end
 
 function OnKeyDown(nChar)
@@ -50,8 +50,12 @@ function OnRButtonDown(x,y)
 	custom.OnRButtonDown(x,y)
 end
 
-function OnLButtonUp(x,y)
-	custom.OnLButtonUp(x,y)
+function OnRButtonUp(x,y)
+	custom.OnRButtonUp(x,y)
+end
+
+function OnMouseMove(x,y)
+	custom.OnMouseMove(x,y)
 end
 
 function OnSetFocus()

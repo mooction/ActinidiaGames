@@ -3,6 +3,8 @@ local current = {}
 
 --[[ global
 ======================================================]]
+screenwidth = core.screenwidth
+screenheight = core.screenheight
 core.screenwidth=768		-- 重置分辨率到768x512
 core.screenheight=512		-- 绘制到屏幕上再拉伸
 
@@ -160,7 +162,13 @@ end
 
 -- if need change map, return new map name
 function current.OnPaint(WndGraphic)
-	if not TimerFlag then do return"" end end;
+	if not TimerFlag then
+		PasteToImageEx(g_temp, g_caption, 250, 100, 300, 78, 0, 93, 300, 78);		-- 显示GameOver
+		PasteToImageEx(g_temp, g_scoreboard, 225, 200, 349, 182, 0, 0, 349, 182);	-- 显示得分面板
+		drawscore(g_temp, g_numberss, score, (score < 10 and 383) or 372, 252, 25, 32, 5);	-- 显示当前得分
+		drawscore(g_temp, g_numberss, best, (best < 10 and 383) or 372, 320, 25, 32, 5);		-- 显示历史最高分
+		do return"" end
+	end;
 	if (gamestart and not gamepause) or ending then 	-- 核心绘图（更新下一帧）
 		y = math.floor(y + vy);					-- 小鸟竖直方向运动
 		vy = vy + v_g;
@@ -208,9 +216,9 @@ function current.OnPaint(WndGraphic)
 			DisplayGameOver(g_temp);		-- 显示“游戏结束”字样及分数
 		end
 		-- 显示
-		PasteToWndEx(WndGraphic,g_temp,0,0,1024,768,0,0,core.screenwidth,core.screenheight);
+		PasteToWndEx(WndGraphic,g_temp,0,0,screenwidth,screenheight,0,0,core.screenwidth,core.screenheight);
 	elseif gamepause then					-- 游戏暂停时
-		PasteToWndEx(WndGraphic,g_temp,0,0,1024,768,0,0,core.screenwidth,core.screenheight);		-- 显示
+		PasteToWndEx(WndGraphic,g_temp,0,0,screenwidth,screenheight,0,0,core.screenwidth,core.screenheight);		-- 显示
 	else
 		-- 游戏未开始，显示DEMO
 		-- 开始绘图（更新下一帧）
@@ -224,16 +232,18 @@ function current.OnPaint(WndGraphic)
 			PasteToImageEx(g_temp, g_caption, 250, 100, 300, 92, 0, 0, 300, 92);
 			PasteToImageEx(g_temp, g_caption, 250, 200, 227, 134, 0, 174, 227, 134);
 
-			PasteToWndEx(WndGraphic, g_temp,0,0,1024,768,0,0,core.screenwidth,core.screenheight)	-- 显示
+			PasteToWndEx(WndGraphic, g_temp,0,0,screenwidth,screenheight,0,0,core.screenwidth,core.screenheight)	-- 显示
 		else
 			if demo_skip then
 				demo_skip=false;
 				-- 在屏幕中央显示demo w:400 h:225 => x = 184 y = 143
 				PasteToImageEx(g_temp, g_demo, 184, 143, 400, 225, 0, nDemo * 225, 400, 225);
-				PasteToWndEx(WndGraphic, g_temp,0,0,1024,768,0,0,core.screenwidth,core.screenheight);		-- 显示
+				PasteToWndEx(WndGraphic, g_temp,0,0,screenwidth,screenheight,0,0,core.screenwidth,core.screenheight);		-- 显示
 				nDemo = nDemo +1;
 			else
 				demo_skip=true
+				PasteToImageEx(g_temp, g_demo, 184, 143, 400, 225, 0, nDemo * 225, 400, 225);
+				PasteToWndEx(WndGraphic, g_temp,0,0,screenwidth,screenheight,0,0,core.screenwidth,core.screenheight);		-- 显示
 			end
 		end
 	end
@@ -252,7 +262,6 @@ function current.OnClose()
 	DeleteImage(g_demo)
 
 	DeleteImage(g_temp)
-	return 0 -- 0 exit, 1 cancel
 end
 
 function current.OnKeyDown(nChar)
@@ -313,8 +322,12 @@ function current.OnRButtonDown(x,y)
 
 end
 
-function current.OnLButtonUp(x,y)
+function current.OnRButtonUp(x,y)
 
+end
+
+function current.OnMouseMove(x,y)
+	
 end
 
 function current.OnSetFocus()

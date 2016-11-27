@@ -16,14 +16,14 @@ end
 
 -- if need change map, return new map name
 function current.OnPaint(WndGraphic)
-	g= CreateImageEx(300,200,core.white)
+	g= CreateImageEx(core.screenwidth,core.screenheight,core.white)
 	PrintText(g, 20, 10, 'hello,world', 'Lucida Console', 14, core.black)
 	PasteToWnd(WndGraphic,g)
 	return ""
 end
 
 function current.OnClose()
-	return 0 -- 0 exit, 1 cancel
+
 end
 
 function current.OnKeyDown(nChar)
@@ -46,8 +46,12 @@ function current.OnRButtonDown(x,y)
 
 end
 
-function current.OnLButtonUp(x,y)
+function current.OnRButtonUp(x,y)
 
+end
+
+function current.OnMouseMove(x,y)
+	
 end
 
 function current.OnSetFocus()
