@@ -6,8 +6,16 @@ These are products made by [Actinidia](https://github.com/mooction/Actinidia).
 
 ## How to play
 
+**Windows**
+
 * For example, if you want to play *rpg*, rename `res-rpg` with `res` 
 * Execute `DirectMode.bat` to play.
+
+**Android**
+
+* Download [ActinidiaOnAndroid](http://moooc.cc/down.php) and install
+* Copy games here or download [ActinidiaGames](http://moooc.cc/game.php) and extract folders to `sdcard/ActinidiaGames`
+* Launch ActinidiaOnAndroid and choose a game.
 
 Snapshots:
 * [RPG](http://7nas1f.com1.z0.glb.clouddn.com/actinidia_prev1.png)
