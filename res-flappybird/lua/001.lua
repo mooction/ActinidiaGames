@@ -1,5 +1,5 @@
 local current = {}
---encode: Chinese use GBK
+--注意保存lua编码为UTF-8
 
 --[[ global
 ======================================================]]
@@ -26,7 +26,7 @@ end
 updown = false;		-- 柱子上下循环
 
 y = 20;				-- 小球y坐标
-BGSpeed = 2;		-- 背景图速度
+BGSpeed = 5;		-- 背景图速度
 bgx = 0;			-- 背景图偏移
 
 score = 0;			-- 得分
@@ -162,11 +162,8 @@ end
 
 -- if need change map, return new map name
 function current.OnPaint(WndGraphic)
-	if not TimerFlag then
-		PasteToImageEx(g_temp, g_caption, 250, 100, 300, 78, 0, 93, 300, 78);		-- 显示GameOver
-		PasteToImageEx(g_temp, g_scoreboard, 225, 200, 349, 182, 0, 0, 349, 182);	-- 显示得分面板
-		drawscore(g_temp, g_numberss, score, (score < 10 and 383) or 372, 252, 25, 32, 5);	-- 显示当前得分
-		drawscore(g_temp, g_numberss, best, (best < 10 and 383) or 372, 320, 25, 32, 5);		-- 显示历史最高分
+	if not TimerFlag then		-- 游戏结束，显示得分
+		PasteToWndEx(WndGraphic,g_temp,0,0,screenwidth,screenheight,0,0,core.screenwidth,core.screenheight);
 		do return"" end
 	end;
 	if (gamestart and not gamepause) or ending then 	-- 核心绘图（更新下一帧）
@@ -297,9 +294,9 @@ function current.OnLButtonDown(x,y)
 	elseif not ending and nDemo > 74 then	-- 游戏已结束且动画播放完，且DEMO播放完，开始新游戏
 		y = 0;					-- 位置初始化：在屏幕外
 		vy = 3;					-- 速度初始化：掉下
-		v_f = -8.0				-- 突变速度
-		v_g = 0.3				-- 初始重力加速度
-		v_z = 2.0 				-- 初始障碍物速度
+		v_f = -17.0				-- 突变速度
+		v_g = 1.3				-- 初始重力加速度
+		v_z = 6.4 				-- 初始障碍物速度
 		
 		for i=1,hPipe do		-- 障碍物位置初始化
 			z[i].x = core.screenwidth + i*divPipe;

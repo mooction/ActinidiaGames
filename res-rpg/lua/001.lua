@@ -1,33 +1,33 @@
 local rpg = load(GetText("res\\lua\\rpg.lua"))()
 local current = {}
---×¢Òâ±£´ælua±àÂëÎªGBK
+--æ³¨æ„ä¿å­˜luaç¼–ç ä¸ºUTF-8
 
 
---[[ È«¾Ö¶¨Òå
+--[[ å…¨å±€å®šä¹‰
 ======================================================]]
 screenwidth = core.screenwidth
 screenheight = core.screenheight
 core.screenwidth=768
 core.screenheight=512
 
-g_scene = nil	-- ³¡¾°Í¼
+g_scene = nil	-- åœºæ™¯å›¾
 
-g_floor = nil	-- µØ°å»º³å²ã
-g_obj = nil 	-- µØ°å»º³å²ã
-g_vir = nil		-- ĞéÄâ»º³å²ã
-g_hero = nil	-- Ö÷½ÇÍ¼Ïñ
+g_floor = nil	-- åœ°æ¿ç¼“å†²å±‚
+g_obj = nil 	-- åœ°æ¿ç¼“å†²å±‚
+g_vir = nil		-- è™šæ‹Ÿç¼“å†²å±‚
+g_hero = nil	-- ä¸»è§’å›¾åƒ
 
-xoffset = 0 	-- xÊÓÒ°Æ«ÒÆ
-yoffset = 0 	-- yÊÓÒ°Æ«ÒÆ
+xoffset = 0 	-- xè§†é‡åç§»
+yoffset = 0 	-- yè§†é‡åç§»
 
-xhero = 0 		-- Ö÷½Ç×óÏÂ½Ç³õÊ¼×ø±ê
+xhero = 0 		-- ä¸»è§’å·¦ä¸‹è§’åˆå§‹åæ ‡
 yhero = 5*rpg.sidelen-1
-hero_speed = 0 			-- Ö÷½ÇÔË¶¯ËÙ¶È£¨×ß2£¬ÅÜ4£©
-hero_direct = 0 		-- Ö÷½Ç³¯Ïò£¨ÏÂ×óÓÒÉÏ0123£©
+hero_speed = 0 			-- ä¸»è§’è¿åŠ¨é€Ÿåº¦ï¼ˆèµ°2ï¼Œè·‘4ï¼‰
+hero_direct = 0 		-- ä¸»è§’æœå‘ï¼ˆä¸‹å·¦å³ä¸Š0123ï¼‰
 hero_frame = 0
-hero_slowfeet = 0 		-- ·ÀÖ¹½Å·¢Éú¹íĞó
+hero_slowfeet = 0 		-- é˜²æ­¢è„šå‘ç”Ÿé¬¼ç•œ
 
-do_event = false -- ±íÃ÷ÕıÔÚ´¦ÀíÊÂ¼ş£¬½«½ûÓÃÈËÎïÒÆ¶¯
+do_event = false -- è¡¨æ˜æ­£åœ¨å¤„ç†äº‹ä»¶ï¼Œå°†ç¦ç”¨äººç‰©ç§»åŠ¨
 do_id = 0
 
 isSpaceKeyDown = false
@@ -36,23 +36,23 @@ isRMouseDown = false
 isFocus = true
 
 
---[[ ÏûÏ¢ÏìÓ¦
+--[[ æ¶ˆæ¯å“åº”
 ======================================================]]
 
 function current.OnCreate()
-	g_scene = GetImage("res\\scene\\LAND1.png")	--¼ÓÔØ³¡¾°
+	g_scene = GetImage("res\\scene\\LAND1.png")	--åŠ è½½åœºæ™¯
 
 	g_floor,g_obj,g_vir = rpg.preparelayers(
 		floor,obj,vir,g_scene,logicwidth,logicheight)
 
-	g_hero = GetImage("res\\role\\npc\\01.png")	-- ¼ÓÔØÖ÷½Ç
+	g_hero = GetImage("res\\role\\npc\\01.png")	-- åŠ è½½ä¸»è§’
 
 	bgm = GetSound("res\\sound\\bgm\\In the Night Garden Closing Theme.mp3",true)
 	SetVolume(bgm,0.5)
 	PlaySound(bgm)
 
 
-	-- ×Ô¶¨Òå¼ÓÔØÄÚÈİ£¨×¢ÒâÔÚOnCloseÖĞÉ¾³ıÊ¹ÓÃµÄ×ÊÔ´£©
+	-- è‡ªå®šä¹‰åŠ è½½å†…å®¹ï¼ˆæ³¨æ„åœ¨OnCloseä¸­åˆ é™¤ä½¿ç”¨çš„èµ„æºï¼‰
 	g_box = GetImage("res\\pics\\skin\\conversation-box.png")
 	g_portrait = GetImage("res\\role\\portrait\\01-1.png")
 	g_portrait2 = GetImage("res\\role\\portrait\\01-3.png")
@@ -63,14 +63,14 @@ end
 
 alpha = 255
 
---[[ ×¢ÒâÖ»ÓĞPasteToWnd½ÓÊÜWndGraphicÖ¸Õë£¬
-	ÆäÓàµÄÖ»½ÓÊÜImageGraphicÖ¸Õë 
+--[[ æ³¨æ„åªæœ‰PasteToWndæ¥å—WndGraphicæŒ‡é’ˆï¼Œ
+	å…¶ä½™çš„åªæ¥å—ImageGraphicæŒ‡é’ˆ 
 
-	OnPaintÖĞ´¦ÀíÊÂ¼ş£¬Èç¹ûĞèÒªÇĞ»»µØÍ¼£¬·µ»ØĞÂµØÍ¼µÄÎÄ¼şÃû
+	OnPaintä¸­å¤„ç†äº‹ä»¶ï¼Œå¦‚æœéœ€è¦åˆ‡æ¢åœ°å›¾ï¼Œè¿”å›æ–°åœ°å›¾çš„æ–‡ä»¶å
 ]]
 function current.OnPaint(WndGraphic)
-	local g_temp = CreateImage(core.screenwidth,core.screenheight)	-- »º³å²ã
-	local x = 0 	-- ÕıÇ°·½Âß¼­x×ø±ê
+	local g_temp = CreateImage(core.screenwidth,core.screenheight)	-- ç¼“å†²å±‚
+	local x = 0 	-- æ­£å‰æ–¹é€»è¾‘xåæ ‡
 	local y = 0 	-- y
 	
 	if hero_speed ~= 0 and not do_event then
@@ -78,9 +78,9 @@ function current.OnPaint(WndGraphic)
 		local pixelheight = GetHeight(g_floor)
 
 		xhero,yhero,x,y = rpg.heromove(xhero,yhero,hero_speed,hero_direct,
-			obj,pixelwidth,pixelheight)	-- Ö÷½ÇÔË¶¯
+			obj,pixelwidth,pixelheight)	-- ä¸»è§’è¿åŠ¨
 
-		if hero_direct == 1 or hero_direct == 2 then		-- ÊÓÒ°Æ«ÒÆ
+		if hero_direct == 1 or hero_direct == 2 then		-- è§†é‡åç§»
 			xoffset = rpg.getxoffset(xhero,pixelwidth)
 		else
 			yoffset = rpg.getyoffset(yhero,pixelheight)
@@ -95,23 +95,25 @@ function current.OnPaint(WndGraphic)
 	end
 
 	rpg.overlaylayers(g_temp,g_floor,g_obj,
-		g_hero,xhero,yhero,hero_frame,hero_direct,g_vir,xoffset,yoffset) -- ËÄ²ãµş¼Ó
+		g_hero,xhero,yhero,hero_frame,hero_direct,g_vir,xoffset,yoffset) -- å››å±‚å åŠ 
 
-	if do_event then	-- ×Ô¶¨ÒåÊÂ¼ş´¦Àí£¬Á½¸öÁ¬ĞøÊÂ¼şµÄidÊÇÁ¬ĞøµÄ£¬Á½¸ö¶ÀÁ¢ÊÂ¼şÖ®¼äid¼ä¸ôÒ»¸ö
+	if do_event then	-- è‡ªå®šä¹‰äº‹ä»¶å¤„ç†ï¼Œä¸¤ä¸ªè¿ç»­äº‹ä»¶çš„idæ˜¯è¿ç»­çš„ï¼Œä¸¤ä¸ªç‹¬ç«‹äº‹ä»¶ä¹‹é—´idé—´éš”ä¸€ä¸ª
 		if do_id == 1 then
-			rpg.talk(g_temp,g_box,g_portrait,"¿ËÀïË¹ÌØ¶û","ÈÌÕß´å£¿")
+			rpg.talk(g_temp,g_box,g_portrait,"å…‹é‡Œæ–¯ç‰¹å°”","å¿è€…æ‘ï¼Ÿ")
 		elseif do_id == 3 then
-			rpg.talk(g_temp,g_box,g_portrait,"¿ËÀïË¹ÌØ¶û","ËíµÀÍê¹¤£¬½ñÌìÃâ·Ñ£¿")
+			rpg.talk(g_temp,g_box,g_portrait,"å…‹é‡Œæ–¯ç‰¹å°”","éš§é“å®Œå·¥ï¼Œä»Šå¤©å…è´¹ï¼Ÿ")
 		elseif do_id == 4 then
-			rpg.talk(g_temp,g_box,g_portrait2,"¿ËÀïË¹ÌØ¶û","Ì«°ôÁË£¡")
+			rpg.talk(g_temp,g_box,g_portrait2,"å…‹é‡Œæ–¯ç‰¹å°”","å¤ªæ£’äº†ï¼")
 		elseif do_id == 6 then
-			do return "res\\lua\\002.lua" end	-- ÇĞ»»³¡¾°
+			core.screenwidth=screenwidth
+			core.screenheight=screenheight
+			do return "res\\lua\\002.lua" end	-- åˆ‡æ¢åœºæ™¯
 		else
 			do_event = false
 			do_id = 0
 		end
 		
-	elseif x==6 and y==12  then	-- ÊÂ¼ş²¶»ñ
+	elseif x==6 and y==12  then	-- äº‹ä»¶æ•è·
 		do_event = true
 		do_id = 1
 	elseif x==29 and y==5 then
@@ -129,7 +131,7 @@ function current.OnPaint(WndGraphic)
 	end
 
 
-	PasteToWndEx(WndGraphic,g_temp,0,0,screenwidth,screenheight,0,0,core.screenwidth,core.screenheight)	-- ÏÔÊ¾
+	PasteToWndEx(WndGraphic,g_temp,0,0,screenwidth,screenheight,0,0,core.screenwidth,core.screenheight)	-- æ˜¾ç¤º
 	DeleteImage(g_temp)
 	return ""
 end
@@ -143,7 +145,7 @@ function current.OnClose()
 	StopSound(bgm)
 
 
-	-- ×Ô¶¨ÒåĞ¶ÔØÄÚÈİ
+	-- è‡ªå®šä¹‰å¸è½½å†…å®¹
 	DeleteImage(g_box)
 	DeleteImage(g_portrait)
 	DeleteImage(g_portrait2)
@@ -185,7 +187,7 @@ function current.OnKeyUp(nChar)
 		if (4 == hero_speed) then hero_speed = 2 end
 	elseif nChar == core.vk["VK_F4"] then
 		if Screenshot() then
-			local bgm = GetSound("res\\sound\\core\\ÅÄÕÕ.wav",false)
+			local bgm = GetSound("res\\sound\\core\\æ‹ç…§.wav",false)
 			PlaySound(bgm)
 		end
 	end
@@ -193,10 +195,32 @@ end
 
 function current.OnLButtonDown(x,y)
 	isLMouseDown = true
+	touchx=x
+	touchy=y
+	if x<screenwidth/4 then
+		current.OnKeyDown(core.vk["VK_LEFT"])
+	elseif x>screenwidth*3/4 then
+		current.OnKeyDown(core.vk["VK_RIGHT"])
+	end
+	if y<screenheight/4 then
+		current.OnKeyDown(core.vk["VK_UP"])
+	elseif y>screenheight*3/4 then
+		current.OnKeyDown(core.vk["VK_DOWN"])
+	end
 end
 
 function current.OnLButtonUp(x,y)
 	isLMouseDown = false
+	if touchx<screenwidth/4 then
+		current.OnKeyUp(core.vk["VK_LEFT"])
+	elseif x>screenwidth*3/4 then
+		current.OnKeyUp(core.vk["VK_RIGHT"])
+	end
+	if touchy<screenheight/4 then
+		current.OnKeyUp(core.vk["VK_UP"])
+	elseif y>screenheight*3/4 then
+		current.OnKeyUp(core.vk["VK_DOWN"])
+	end
 end
 
 function current.OnRButtonDown(x,y)
@@ -223,9 +247,9 @@ function current.OnMouseWheel(zDeta,x,y)
 	
 end
 
-logicwidth = 30 -- ÄÚÈ¦´óÀ¨ºÅÊı(24-32)
-logicheight = 16 -- ´óÀ¨ºÅÄÚÊı×Ö£¨16-24£©
--- ÒÔÏÂµØÍ¼ĞÅÏ¢ÓÉActinidiaMapEditorÉú³É
+logicwidth = 30 -- å†…åœˆå¤§æ‹¬å·æ•°(24-32)
+logicheight = 16 -- å¤§æ‹¬å·å†…æ•°å­—ï¼ˆ16-24ï¼‰
+-- ä»¥ä¸‹åœ°å›¾ä¿¡æ¯ç”±ActinidiaMapEditorç”Ÿæˆ
 floor = {
 
 {1, 16, 1, 16, 16, 16, 16, 16, 1, 1, 1, 1, 16, 1, 16, 1},

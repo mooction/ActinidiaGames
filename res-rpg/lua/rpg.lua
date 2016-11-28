@@ -7,7 +7,7 @@ local rpg = {
 	txtsmall = 18,
 	txtnormal = 22,
 	txtbig = 27,
-	txtfont = "Î¢ÈíÑÅºÚ",
+	txtfont = "å¾®è½¯é›…é»‘",
 
 -- defined in core.lua
 	screenwidth = 768,
@@ -18,11 +18,11 @@ local rpg = {
 }
 
 
---[[luaÊµÏÖ
+--[[luaå®ç°
 =======================================================]]
 
 
--- OnCreateÖĞ³õÊ¼»¯Èı²ãÍ¼ĞÎ
+-- OnCreateä¸­åˆå§‹åŒ–ä¸‰å±‚å›¾å½¢
 function rpg.preparelayers(_floor,_obj,_vir,_g_scene,_logicwidth,_logicheight)
 	local _g_floor = CreateImageEx(rpg.sidelen*_logicwidth,rpg.sidelen*_logicheight,0x00000000)
 	local _g_obj = CreateTransImage(rpg.sidelen*_logicwidth,rpg.sidelen*_logicheight)
@@ -43,7 +43,7 @@ function rpg.preparelayers(_floor,_obj,_vir,_g_scene,_logicwidth,_logicheight)
 	return _g_floor,_g_obj,_g_vir
 end
 
--- OnPaintÖĞ¿ÉÄÜĞèÒªÖØ½¨g_floor£¬É¾³ı¾ÉµÄ£¬·µ»ØĞÂµÄ
+-- OnPaintä¸­å¯èƒ½éœ€è¦é‡å»ºg_floorï¼Œåˆ é™¤æ—§çš„ï¼Œè¿”å›æ–°çš„
 function rpg.reloadfloorlayer(_g_floor,_floor,_g_scene,_logicwidth,_logicheight)
 	DeleteImage(_g_floor)
 	_g_floor = CreateImageEx(rpg.sidelen*_logicwidth,rpg.sidelen*_logicheight,0x00000000)
@@ -57,7 +57,7 @@ function rpg.reloadfloorlayer(_g_floor,_floor,_g_scene,_logicwidth,_logicheight)
 	return _g_floor
 end
 
--- OnPaintÖĞ¿ÉÄÜĞèÒªÖØ½¨g_obj£¬É¾³ı¾ÉµÄ£¬·µ»ØĞÂµÄ
+-- OnPaintä¸­å¯èƒ½éœ€è¦é‡å»ºg_objï¼Œåˆ é™¤æ—§çš„ï¼Œè¿”å›æ–°çš„
 function rpg.reloadobjlayer(_g_obj,_obj,_g_scene,_logicwidth,_logicheight)
 	DeleteImage(_g_obj)
 	_g_obj = CreateTransImage(rpg.sidelen*_logicwidth,rpg.sidelen*_logicheight)
@@ -71,7 +71,7 @@ function rpg.reloadobjlayer(_g_obj,_obj,_g_scene,_logicwidth,_logicheight)
 	return _g_obj
 end
 
--- OnPaintÖĞ¿ÉÄÜĞèÒªÖØ½¨g_vir£¬É¾³ı¾ÉµÄ£¬·µ»ØĞÂµÄ
+-- OnPaintä¸­å¯èƒ½éœ€è¦é‡å»ºg_virï¼Œåˆ é™¤æ—§çš„ï¼Œè¿”å›æ–°çš„
 function rpg.reloadvirlayer(_g_vir,_vir,_g_scene,_logicwidth,_logicheight)
 	DeleteImage(_g_vir)
 	_g_vir = CreateTransImage(rpg.sidelen*_logicwidth,rpg.sidelen*_logicheight)
@@ -85,7 +85,7 @@ function rpg.reloadvirlayer(_g_vir,_vir,_g_scene,_logicwidth,_logicheight)
 	return _g_vir
 end
 
--- OnPaintÖĞ½«Èı¸öÍ¼ĞÎ²ãµş¼Óµ½g_temp
+-- OnPaintä¸­å°†ä¸‰ä¸ªå›¾å½¢å±‚å åŠ åˆ°g_temp
 function rpg.overlaylayers(_g_temp,_g_floor,_g_obj,_g_hero,_xhero,_yhero,_hero_frame,_hero_direct,_g_vir,_xoffset,_yoffset)
 	PasteToImageEx(_g_temp,_g_floor,0,0,rpg.screenwidth,rpg.screenheight,
 		_xoffset,_yoffset,rpg.screenwidth,rpg.screenheight)
@@ -98,7 +98,7 @@ function rpg.overlaylayers(_g_temp,_g_floor,_g_obj,_g_hero,_xhero,_yhero,_hero_f
 end
 
 
--- OnPaintÖĞ¼ÆËãÊÓÒ°xÆ«ÒÆÁ¿
+-- OnPaintä¸­è®¡ç®—è§†é‡xåç§»é‡
 function rpg.getxoffset(_xhero,_pixelwidth)
 	local _xoffset = 0
 	if _xhero<rpg.screenwidth/2 then _xoffset = 0
@@ -109,7 +109,7 @@ function rpg.getxoffset(_xhero,_pixelwidth)
 end
 
 
--- OnPaintÖĞ¼ÆËãÊÓÒ°yÆ«ÒÆÁ¿
+-- OnPaintä¸­è®¡ç®—è§†é‡yåç§»é‡
 function rpg.getyoffset(_yhero,_pixelheight)
 	local _yoffset = 0
 	if _yhero<rpg.screenheight/2 then _yoffset = 0
@@ -120,7 +120,7 @@ function rpg.getyoffset(_yhero,_pixelheight)
 end
 
 
--- ½«ÏñËØ×ø±ê×ª»»ÎªÂß¼­×ø±ê
+-- å°†åƒç´ åæ ‡è½¬æ¢ä¸ºé€»è¾‘åæ ‡
 function rpg.pixeltologic(_x,_y)
 	_x = math.floor(_x/rpg.sidelen)+1
 	_y = math.floor(_y/rpg.sidelen)+1
@@ -128,70 +128,70 @@ function rpg.pixeltologic(_x,_y)
 end
 
 
--- OnPaintÖĞ´¦ÀíÈËÎïÔË¶¯£¬·µ»ØĞÂµÄÏñËØxy×ø±ê¼°ÈËÎïÕıÇ°·½Âß¼­pq×ø±ê
+-- OnPaintä¸­å¤„ç†äººç‰©è¿åŠ¨ï¼Œè¿”å›æ–°çš„åƒç´ xyåæ ‡åŠäººç‰©æ­£å‰æ–¹é€»è¾‘pqåæ ‡
 function rpg.heromove(_xhero,_yhero,_hero_speed,_hero_direct,_obj,_pixelwidth,_pixelheight)
 	local i = 0
 	local j = 0
 	local m = 0
 	local n = 0
 
-	local p = 0 -- ÕıÇ°·½objµÄÂß¼­×ø±ê
-	local q = 0 -- ÓÃÓÚÅĞ¶ÏÊÂ¼ş
+	local p = 0 -- æ­£å‰æ–¹objçš„é€»è¾‘åæ ‡
+	local q = 0 -- ç”¨äºåˆ¤æ–­äº‹ä»¶
 
-	if _hero_direct == 0 then		-- ÏÂ
+	if _hero_direct == 0 then		-- ä¸‹
 		_yhero = _yhero+_hero_speed
 		if _yhero > _pixelheight then 
 		 	_yhero = _pixelheight-1
 		 	do return _xhero,_yhero,0,0 end 
 		end
-		i,j= rpg.pixeltologic(_xhero,_yhero) -- ×óÏÂ½Ç
-		m,n= rpg.pixeltologic(_xhero+rpg.sidelen-1,_yhero) -- ÓÒÏÂ½Ç
-		p,q= rpg.pixeltologic(_xhero+rpg.sidelen/2,_yhero)	-- ÕıÇ°·½
+		i,j= rpg.pixeltologic(_xhero,_yhero) -- å·¦ä¸‹è§’
+		m,n= rpg.pixeltologic(_xhero+rpg.sidelen-1,_yhero) -- å³ä¸‹è§’
+		p,q= rpg.pixeltologic(_xhero+rpg.sidelen/2,_yhero)	-- æ­£å‰æ–¹
 		if _obj[i][j] == 0 and _obj[m][n] == 0 then do return _xhero,_yhero,p,q end
 		elseif _obj[i][j] == 0 and _obj[m][n] ~= 0 then _xhero = _xhero-1
 		elseif _obj[i][j] ~= 0 and _obj[m][n] == 0 then _xhero = _xhero+1
 		else
 			_yhero = (j-1)*rpg.sidelen-1
 		end
-	elseif _hero_direct == 3 then	-- ÉÏ
+	elseif _hero_direct == 3 then	-- ä¸Š
 		_yhero = _yhero-_hero_speed
 		if _yhero < rpg.sidelen then 
 		 	_yhero = rpg.sidelen-1
 		 	do return _xhero,_yhero,0,0 end 
 		end
-		i,j= rpg.pixeltologic(_xhero,_yhero-rpg.sidelen+1) -- ×óÉÏ½Ç
-		m,n= rpg.pixeltologic(_xhero+rpg.sidelen-1,_yhero-rpg.sidelen+1) -- ÓÒÉÏ½Ç
-		p,q= rpg.pixeltologic(_xhero+rpg.sidelen/2,_yhero-rpg.sidelen+1)	-- ÕıÇ°·½
+		i,j= rpg.pixeltologic(_xhero,_yhero-rpg.sidelen+1) -- å·¦ä¸Šè§’
+		m,n= rpg.pixeltologic(_xhero+rpg.sidelen-1,_yhero-rpg.sidelen+1) -- å³ä¸Šè§’
+		p,q= rpg.pixeltologic(_xhero+rpg.sidelen/2,_yhero-rpg.sidelen+1)	-- æ­£å‰æ–¹
 		if _obj[i][j] == 0 and _obj[m][n] == 0 then do return _xhero,_yhero,p,q end 
 		elseif _obj[i][j] == 0 and _obj[m][n] ~= 0 then _xhero = _xhero-1
 		elseif _obj[i][j] ~= 0 and _obj[m][n] == 0 then _xhero = _xhero+1
 		else
 			_yhero = (j+1)*rpg.sidelen-1
 		end
-	elseif _hero_direct == 1 then	-- ×ó
+	elseif _hero_direct == 1 then	-- å·¦
 		_xhero = _xhero-_hero_speed
 		if _xhero < 0 then 
 			_xhero = 0
 			do return _xhero,_yhero,0,0 end 
 		end
-		i,j= rpg.pixeltologic(_xhero,_yhero-rpg.sidelen+1) -- ×óÉÏ½Ç
-		m,n= rpg.pixeltologic(_xhero,_yhero) -- ×óÏÂ½Ç
-		p,q= rpg.pixeltologic(_xhero,_yhero-rpg.sidelen/2)	-- ÕıÇ°·½
+		i,j= rpg.pixeltologic(_xhero,_yhero-rpg.sidelen+1) -- å·¦ä¸Šè§’
+		m,n= rpg.pixeltologic(_xhero,_yhero) -- å·¦ä¸‹è§’
+		p,q= rpg.pixeltologic(_xhero,_yhero-rpg.sidelen/2)	-- æ­£å‰æ–¹
 		if _obj[i][j] == 0 and _obj[m][n] == 0 then do return _xhero,_yhero,p,q end 
 		elseif _obj[i][j] == 0 and _obj[m][n] ~= 0 then _yhero = _yhero-1
 		elseif _obj[i][j] ~= 0 and _obj[m][n] == 0 then _yhero = _yhero+1
 		else
 			_xhero = i*rpg.sidelen
 		end
-	elseif _hero_direct == 2 then	-- ÓÒ
+	elseif _hero_direct == 2 then	-- å³
 		_xhero = _xhero+_hero_speed
 		if _xhero > _pixelwidth - rpg.sidelen then 
 			_xhero = _pixelwidth - rpg.sidelen -1
 			do return _xhero,_yhero,0,0 end 
 		end
-		i,j= rpg.pixeltologic(_xhero+rpg.sidelen-1,_yhero-rpg.sidelen+1) -- ÓÒÉÏ½Ç
-		m,n= rpg.pixeltologic(_xhero+rpg.sidelen-1,_yhero) -- ÓÒÏÂ½Ç
-		p,q= rpg.pixeltologic(_xhero+rpg.sidelen-1,_yhero-rpg.sidelen/2)	-- ÕıÇ°·½
+		i,j= rpg.pixeltologic(_xhero+rpg.sidelen-1,_yhero-rpg.sidelen+1) -- å³ä¸Šè§’
+		m,n= rpg.pixeltologic(_xhero+rpg.sidelen-1,_yhero) -- å³ä¸‹è§’
+		p,q= rpg.pixeltologic(_xhero+rpg.sidelen-1,_yhero-rpg.sidelen/2)	-- æ­£å‰æ–¹
 		if _obj[i][j] == 0 and _obj[m][n] == 0 then do return _xhero,_yhero,p,q end 
 		elseif _obj[i][j] == 0 and _obj[m][n] ~= 0 then _yhero = _yhero-1
 		elseif _obj[i][j] ~= 0 and _obj[m][n] == 0 then _yhero = _yhero+1
@@ -202,24 +202,24 @@ function rpg.heromove(_xhero,_yhero,_hero_speed,_hero_direct,_obj,_pixelwidth,_p
 	return _xhero,_yhero,p,q
 end
 
--- ¼ÆËãÈËÎïÕıÇ°·½µÄÏñËØ×ø±ê£¬·µ»Øxy£¬Èç¹ûÇ°·½Ô½½ç·µ»Ø0,0
+-- è®¡ç®—äººç‰©æ­£å‰æ–¹çš„åƒç´ åæ ‡ï¼Œè¿”å›xyï¼Œå¦‚æœå‰æ–¹è¶Šç•Œè¿”å›0,0
 function rpg.heroforward(_xhero,_yhero,_hero_direct,_pixelwidth,_pixelheight)
-	if _hero_direct == 0 then		-- ÏÂ
+	if _hero_direct == 0 then		-- ä¸‹
 		if _yhero+2 > _pixelheight then 
 		 	do return 0,0 end 
 		end
 		do return _xhero+rpg.sidelen/2,_yhero end
-	elseif _hero_direct == 3 then	-- ÉÏ
+	elseif _hero_direct == 3 then	-- ä¸Š
 		if _yhero-2 < rpg.sidelen then 
 		 	do return 0,0 end 
 		end
 		do return _xhero+rpg.sidelen/2,_yhero-rpg.sidelen+1 end
-	elseif _hero_direct == 1 then	-- ×ó
+	elseif _hero_direct == 1 then	-- å·¦
 		if _xhero-2 < 0 then 
 			do return 0,0 end 
 		end
 		do return _xhero,_yhero-rpg.sidelen/2 end
-	elseif _hero_direct == 2 then	-- ÓÒ
+	elseif _hero_direct == 2 then	-- å³
 		if _xhero+2 > _pixelwidth - rpg.sidelen then 
 			do return 0,0 end 
 		end
@@ -227,28 +227,28 @@ function rpg.heroforward(_xhero,_yhero,_hero_direct,_pixelwidth,_pixelheight)
 	end
 end
 
---[[³£ÓÃNPCÃû³Æ
+--[[å¸¸ç”¨NPCåç§°
 ============================================================
-ÄªÀï£¨Å®£©
-ÈøÀû£¨Å®£©
-°¬Ã×£¨Å®£©
-´÷°²ÄÈ£¨Å®£©
-¿ËÀïË¹ÌØ¶û£¨Å®£©
+è«é‡Œï¼ˆå¥³ï¼‰
+è¨åˆ©ï¼ˆå¥³ï¼‰
+è‰¾ç±³ï¼ˆå¥³ï¼‰
+æˆ´å®‰å¨œï¼ˆå¥³ï¼‰
+å…‹é‡Œæ–¯ç‰¹å°”ï¼ˆå¥³ï¼‰
 
-ÌÀÃ×£¨ÄĞ£©
-À³¶÷£¨ÄĞ£©
-´ï·ò£¨ÄĞ£©
-Æ¤°£¶û£¨ÄĞ£©
-¸¥À×µÂ£¨ÄĞ£©
-ÌÀÆÕÉ­£¨ÄĞ£©
-Î¤¶ûË¹£¨ÄĞ£©
-²¼À¼µÂ£¨ÄĞ£©
-ÎÂÌØ²®¶÷£¨ÄĞ£©
-°²¶«Äá°Â£¨ÄĞ£©
+æ±¤ç±³ï¼ˆç”·ï¼‰
+è±æ©ï¼ˆç”·ï¼‰
+è¾¾å¤«ï¼ˆç”·ï¼‰
+çš®åŸƒå°”ï¼ˆç”·ï¼‰
+å¼—é›·å¾·ï¼ˆç”·ï¼‰
+æ±¤æ™®æ£®ï¼ˆç”·ï¼‰
+éŸ¦å°”æ–¯ï¼ˆç”·ï¼‰
+å¸ƒå…°å¾·ï¼ˆç”·ï¼‰
+æ¸©ç‰¹ä¼¯æ©ï¼ˆç”·ï¼‰
+å®‰ä¸œå°¼å¥¥ï¼ˆç”·ï¼‰
 
 ]]
 
--- ÏÔÊ¾½»Ì¸¿ò
+-- æ˜¾ç¤ºäº¤è°ˆæ¡†
 function rpg.talk(_g_temp,_g_box,_g_portrait,_title,_text)
 	PasteToImage(_g_temp,_g_box,0,rpg.screenheight-GetHeight(_g_box));
 	PasteToImage(_g_temp,_g_portrait,10,rpg.screenheight-GetHeight(_g_portrait));
@@ -260,11 +260,11 @@ end
 
 
 local alpha = 255
-rpg.fadefast = 5 		-- 4±¶ËÙ
-rpg.fadenormal = 2.5 	-- 2±¶ËÙ
-rpg.fadeslow = 1.25 	-- 1±¶ËÙ
--- ÏÔÊ¾ÏûÏ¢¿ò£¬ÏÔÊ¾Íê±Ï·µ»Øtrue£¬·ñÔòfalse
--- _deta ±ØĞëÊÇ rpg.fadefast,rpg.fadenormal,rpg.fadeslow ÖĞµÄÒ»ÖÖ
+rpg.fadefast = 5 		-- 4å€é€Ÿ
+rpg.fadenormal = 2.5 	-- 2å€é€Ÿ
+rpg.fadeslow = 1.25 	-- 1å€é€Ÿ
+-- æ˜¾ç¤ºæ¶ˆæ¯æ¡†ï¼Œæ˜¾ç¤ºå®Œæ¯•è¿”å›trueï¼Œå¦åˆ™false
+-- _deta å¿…é¡»æ˜¯ rpg.fadefast,rpg.fadenormal,rpg.fadeslow ä¸­çš„ä¸€ç§
 function rpg.message(_g_temp,_g_messagebox,_text,_deta)
 	if alpha ~= 45 then
 		local dx = (rpg.screenwidth - GetWidth(_g_messagebox))/2
