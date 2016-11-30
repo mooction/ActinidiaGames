@@ -13,8 +13,9 @@ These are products made by [Actinidia](https://github.com/mooction/Actinidia).
 
 **Android**
 
-* Download [ActinidiaOnAndroid](http://moooc.cc/down.php) and install
-* Copy games here or download [ActinidiaGames](http://moooc.cc/game.php) and extract folders to `sdcard/ActinidiaGames`
+* Download [ActinidiaOnAndroid](http://moooc.cc/actinidia.apk) and install
+* Provide SD Card access permission
+* Copy games here or download [ActinidiaGames](http://moooc.cc/ActinidiaGames.zip) and extract folders to `sdcard/ActinidiaGames`
 * Launch ActinidiaOnAndroid and choose a game.
 
 Snapshots:
