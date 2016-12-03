@@ -32,7 +32,6 @@ do_id = 0
 
 isSpaceKeyDown = false
 isLMouseDown = false
-isRMouseDown = false
 isFocus = true
 
 
@@ -221,14 +220,6 @@ function current.OnLButtonUp(x,y)
 	elseif y>screenheight*3/4 then
 		current.OnKeyUp(core.vk["VK_DOWN"])
 	end
-end
-
-function current.OnRButtonDown(x,y)
-	isRMouseDown = true
-end
-
-function current.OnRButtonUp(x,y)
-	isRMouseDown = false
 end
 
 function current.OnMouseMove(x,y)

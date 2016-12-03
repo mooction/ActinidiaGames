@@ -46,14 +46,6 @@ function OnLButtonUp(x,y)
 	custom.OnLButtonUp(x,y)
 end
 
-function OnRButtonDown(x,y)
-	custom.OnRButtonDown(x,y)
-end
-
-function OnRButtonUp(x,y)
-	custom.OnRButtonUp(x,y)
-end
-
 function OnMouseMove(x,y)
 	custom.OnMouseMove(x,y)
 end

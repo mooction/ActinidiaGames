@@ -294,7 +294,7 @@ function current.OnLButtonDown(x,y)
 	elseif not ending and nDemo > 74 then	-- 游戏已结束且动画播放完，且DEMO播放完，开始新游戏
 		y = 0;					-- 位置初始化：在屏幕外
 		vy = 3;					-- 速度初始化：掉下
-		v_f = -17.0				-- 突变速度
+		v_f = -12.0				-- 初始跳跃力
 		v_g = 1.3				-- 初始重力加速度
 		v_z = 6.4 				-- 初始障碍物速度
 		
@@ -312,14 +312,6 @@ function current.OnLButtonDown(x,y)
 end
 
 function current.OnLButtonUp(x,y)
-
-end
-
-function current.OnRButtonDown(x,y)
-
-end
-
-function current.OnRButtonUp(x,y)
 
 end
 

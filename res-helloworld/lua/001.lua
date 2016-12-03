@@ -1,6 +1,4 @@
 local current = {}
---encode: Chinese use GBK
-
 
 --[[ global
 ======================================================]]
@@ -42,14 +40,6 @@ function current.OnLButtonDown(x,y)
 end
 
 function current.OnLButtonUp(x,y)
-
-end
-
-function current.OnRButtonDown(x,y)
-
-end
-
-function current.OnRButtonUp(x,y)
 
 end
 
