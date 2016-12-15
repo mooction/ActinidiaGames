@@ -60,23 +60,17 @@ function DisplayGameOver(d)
 	PasteToImageEx(d, g_scoreboard, 225, 200, 349, 182, 0, 0, 349, 182);	-- 显示得分面板
 	drawscore(d, g_numberss, score, (score < 10 and 383) or 372, 252, 25, 32, 5);	-- 显示当前得分
 	best = 0;		-- 获取历史最高分
-
-	local f = io.open("usr.dat","r");
-	if f then 	-- 以前有记录
-		best = f:read()+0;		-- 读取
-		f:close();
+	best = GetSetting("best")
+	if best then 	-- 不为nil，以前有记录
+		best=best+0	-- 转换为数字
 		best = (best > 999 and 0) or best;		-- 分数转换为int（反作弊）
 		if (score > best) then
 			PasteToImageEx(d, g_scoreboard, 431, 290, 48, 21, 0, 182, 48, 21);		-- 显示NEW
-			io.output("usr.dat");
-			io.write(score);	-- 保存
-			io.close();
+			SaveSetting("best",tostring(score))
 		end
 	else			-- 第一次记录
         PasteToImageEx(d, g_scoreboard, 431, 290, 48, 21, 0, 182, 48, 21);			-- 显示NEW
-		io.output("usr.dat");
-		io.write(score);		-- 保存
-		io.close();
+		SaveSetting("best",tostring(score))
 	end
 
 	drawscore(d, g_numberss, best, (best < 10 and 383) or 372, 320, 25, 32, 5);		-- 显示历史最高分

@@ -151,6 +151,22 @@ local core = {
  */
 	bool Screenshot()
 
+/**
+ *	Get setting
+ *	Actinidia will load settings from "res\\data" on first start
+ *	@param key string
+ *	@return value string, nil if not exist
+ */
+	void GetSetting(key)
+
+
+/**
+ *	Save setting
+ *	Actinidia will save settings to "res\\data" on quit
+ *	@param key string
+ *	@param value string
+ */
+	void SaveSetting(key, value)
 ]]
 
 
