@@ -1,4 +1,6 @@
-local rpg = load(GetText("res\\lua\\rpg.lua"))()
+rpg = load(GetText("res\\lua\\rpg.lua"))()
+rocker = load(GetText("res\\lua\\rocker.lua"))()
+abkey = load(GetText("res\\lua\\abkey.lua"))()
 local current = {}
 --注意保存lua编码为UTF-8
 
@@ -32,8 +34,8 @@ do_id = 0
 
 isSpaceKeyDown = false
 isLMouseDown = false
-isFocus = true
-
+mouse_x = 0
+mouse_y = 0
 
 --[[ 消息响应
 ======================================================]]
@@ -51,6 +53,8 @@ function current.OnCreate()
 
 
 	-- 自定义加载内容（注意在OnClose中删除使用的资源）
+	rocker.prepare("res\\pics\\skin\\circle.png", "res\\pics\\skin\\circle_touch.png")
+	abkey.prepare("res\\pics\\skin\\key_a.png", "res\\pics\\skin\\key_b.png")
 	g_box = GetImage("res\\pics\\skin\\conversation-box.png")
 	g_portrait = GetImage("res\\role\\portrait\\01-3.png")
 	g_portrait2 = GetImage("res\\role\\portrait\\01-2.png")
@@ -126,8 +130,11 @@ function current.OnPaint(WndGraphic)
 		do_id = 3
 	end
 
+	rocker.draw(g_temp,mouse_x,mouse_y)
+	abkey.draw(g_temp)
 	
-	PasteToWndEx(WndGraphic,g_temp,0,0,screenwidth,screenheight,0,0,core.screenwidth,core.screenheight)	-- 显示
+	PasteToWndEx(WndGraphic,g_temp,0,0,screenwidth,screenheight,
+		0,0,core.screenwidth,core.screenheight)	-- 显示到屏幕上
 	DeleteImage(g_temp)
 	return ""
 end
@@ -140,7 +147,8 @@ function current.OnClose()
 	DeleteImage(g_scene)
 	StopSound(bgm)
 
-	-- 自定义卸载内容
+	rocker.free()
+	abkey.free()
 	DeleteImage(g_box)
 	DeleteImage(g_portrait)
 	DeleteImage(g_portrait2)
@@ -191,45 +199,40 @@ function current.OnKeyUp(nChar)
 end
 
 function current.OnLButtonDown(x,y)
-	isLMouseDown = true
-	touchx=x
-	touchy=y
-	if x<screenwidth/4 then
-		current.OnKeyDown(core.vk["VK_LEFT"])
-	elseif x>screenwidth*3/4 then
-		current.OnKeyDown(core.vk["VK_RIGHT"])
-	end
-	if y<screenheight/4 then
-		current.OnKeyDown(core.vk["VK_UP"])
-	elseif y>screenheight*3/4 then
-		current.OnKeyDown(core.vk["VK_DOWN"])
+	if abkey.inKeyA() then current.OnKeyDown(core.vk["VK_SPACE"])
+	elseif abkey.inKeyB() then current.OnKeyDown(core.vk["VK_RETURN"])
+	else isLMouseDown = true
 	end
 end
 
 function current.OnLButtonUp(x,y)
-	isLMouseDown = false
-	if touchx<screenwidth/4 then
-		current.OnKeyUp(core.vk["VK_LEFT"])
-	elseif x>screenwidth*3/4 then
-		current.OnKeyUp(core.vk["VK_RIGHT"])
+	if abkey.inKeyA() then current.OnKeyUp(core.vk["VK_SPACE"])
+	elseif abkey.inKeyB() then current.OnKeyUp(core.vk["VK_RETURN"])
+	else isLMouseDown = false
 	end
-	if touchy<screenheight/4 then
-		current.OnKeyUp(core.vk["VK_UP"])
-	elseif y>screenheight*3/4 then
-		current.OnKeyUp(core.vk["VK_DOWN"])
-	end
+	hero_speed = 0
 end
 
 function current.OnMouseMove(x,y)
-	
+	mouse_x = math.floor(x/screenwidth*768)		-- 坐标拉伸
+	mouse_y = math.floor(y/screenheight*512)
+	if isLMouseDown then
+		-- 角度-90到270，下左右上0123
+		local v = rocker.getDegree(mouse_x,mouse_y)
+		if v>-45 and v<=45 then hero_direct = 2
+		elseif v>45 and v<=135 then hero_direct = 3
+		elseif v>135 and v<=225 then hero_direct = 1
+		else hero_direct = 0 end
+		if isSpaceKeyDown then hero_speed = 4 else hero_speed =  2 end
+	end
 end
 
 function current.OnSetFocus()
-	isFocus = true
+
 end
 
 function current.OnKillFocus()
-	isFocus = false
+	
 end
 
 function current.OnMouseWheel(zDeta,x,y)

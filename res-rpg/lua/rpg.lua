@@ -1,3 +1,12 @@
+--[[
+Module:			rpg
+Description:	rpg game functions
+TODO:
+	global:		rpg = load(GetText("res\\lua\\rpg.lua"))()
+	current.OnCreate:	rocker.prepare(path_circle, path_circle_touch)
+	current.OnPaint:	rocker.draw(g_temp,mouse_x,mouse_y)
+	current.OnClose:	rocker.free()
+]]
 local rpg = {
 	sidelen = 32,
 	herowidth = 32,
@@ -260,11 +269,11 @@ end
 
 
 local alpha = 255
+-- 显示消息框，显示完毕返回true，否则false
+-- _deta 必须取以下值：
 rpg.fadefast = 5 		-- 4倍速
 rpg.fadenormal = 2.5 	-- 2倍速
 rpg.fadeslow = 1.25 	-- 1倍速
--- 显示消息框，显示完毕返回true，否则false
--- _deta 必须是 rpg.fadefast,rpg.fadenormal,rpg.fadeslow 中的一种
 function rpg.message(_g_temp,_g_messagebox,_text,_deta)
 	if alpha ~= 45 then
 		local dx = (rpg.screenwidth - GetWidth(_g_messagebox))/2
@@ -279,7 +288,5 @@ function rpg.message(_g_temp,_g_messagebox,_text,_deta)
 	end
 end
 
-
---***
 
 return rpg
