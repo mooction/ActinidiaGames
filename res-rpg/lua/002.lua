@@ -1,4 +1,6 @@
-rpg = load(GetText("res\\lua\\rpg.lua"))()
+rpgcommon = load(GetText("res\\lua\\rpgcommon.lua"))()
+rpgmap = load(GetText("res\\lua\\rpgmap.lua"))()
+rpghero = load(GetText("res\\lua\\rpghero.lua"))()
 rocker = load(GetText("res\\lua\\rocker.lua"))()
 abkey = load(GetText("res\\lua\\abkey.lua"))()
 local current = {}
@@ -12,21 +14,7 @@ screenheight = core.screenheight
 core.screenwidth=768
 core.screenheight=512
 
-g_scene = nil	-- 场景图
-
-g_floor = nil	-- 地板缓冲层
-g_obj = nil 	-- 地板缓冲层
-g_vir = nil		-- 虚拟缓冲层
-g_hero = nil	-- 主角图像
-
-xoffset = 0 	-- x视野偏移
-yoffset = 0 	-- y视野偏移
-
-xhero = 0 		-- 主角左下角初始坐标
-yhero = rpg.sidelen-1
 hero_speed = 0 			-- 主角运动速度（走2，跑4）
-hero_direct = 0 		-- 主角朝向（下左右上0123）
-hero_frame = 0
 hero_slowfeet = 0 		-- 防止脚发生鬼畜
 
 do_event = false -- 表明正在处理事件，将禁用人物移动
@@ -41,26 +29,19 @@ mouse_y = 0
 ======================================================]]
 
 function current.OnCreate()
-	g_scene = GetImage("res\\scene\\LAND0.png")	--加载场景
-
-	g_floor,g_obj,g_vir = rpg.preparelayers(floor,obj,vir,g_scene,logicwidth,logicheight)
-
-	g_hero = GetImage("res\\role\\npc\\01.png")	-- 加载主角
+	rpgcommon.prepare("res\\pics\\skin\\conversation-box.png","res\\pics\\skin\\message.png")
+	rpgmap.prepare("res\\scene\\LAND0.png",logicwidth,logicheight,floor,obj,vir)
+	rpghero.prepare("res\\role\\npc\\01.png")
+	rocker.prepare("res\\pics\\skin\\circle.png", "res\\pics\\skin\\circle_touch.png")
+	abkey.prepare("res\\pics\\skin\\key_a.png", "res\\pics\\skin\\key_b.png")
 
 	bgm = GetSound("res\\sound\\bgm\\In the Night Garden Closing Theme.mp3",true)
 	SetVolume(bgm,0.5)
 	PlaySound(bgm)
 
-
-	-- 自定义加载内容（注意在OnClose中删除使用的资源）
-	rocker.prepare("res\\pics\\skin\\circle.png", "res\\pics\\skin\\circle_touch.png")
-	abkey.prepare("res\\pics\\skin\\key_a.png", "res\\pics\\skin\\key_b.png")
-	g_box = GetImage("res\\pics\\skin\\conversation-box.png")
-	g_portrait = GetImage("res\\role\\portrait\\01-3.png")
-	g_portrait2 = GetImage("res\\role\\portrait\\01-2.png")
+	g_portrait = GetImage("res\\role\\portrait\\01-1.png")
+	g_portrait2 = GetImage("res\\role\\portrait\\01-3.png")
 	g_portrait3 = GetImage("res\\role\\portrait\\01-4.png")
-
-	g_messagebox = GetImage("res\\pics\\skin\\message.png")
 	return ""
 end
 
@@ -75,42 +56,31 @@ function current.OnPaint(WndGraphic)
 	local y = 0 	-- y
 	
 	if hero_speed ~= 0 and not do_event then
-		local pixelwidth = GetWidth(g_floor)
-		local pixelheight = GetHeight(g_floor)
-
-		xhero,yhero,x,y = rpg.heromove(xhero,yhero,hero_speed,hero_direct,
-			obj,pixelwidth,pixelheight)	-- 主角运动
-
-		if hero_direct == 1 or hero_direct == 2 then		-- 视野偏移
-			xoffset = rpg.getxoffset(xhero,pixelwidth)
-		else
-			yoffset = rpg.getyoffset(yhero,pixelheight)
-		end
-
+		x,y = rpghero.move(hero_speed,obj)	-- 主角运动
+		rpghero.calcoffset()			-- 视野偏移
+		
 		hero_slowfeet = hero_slowfeet + 1
 		if hero_slowfeet == 7 then
-			hero_frame = hero_frame + 1
-			hero_frame = hero_frame % 4
+			rpghero.frame = rpghero.frame + 1
+			rpghero.frame = rpghero.frame % 4
 			hero_slowfeet = 0
 		end
 	end
 
-	rpg.overlaylayers(g_temp,g_floor,g_obj,
-		g_hero,xhero,yhero,hero_frame,hero_direct,g_vir,xoffset,yoffset) -- 四层叠加
-
+	rpghero.draw(g_temp)	-- 显示四层图形
 
 	if do_event then	-- 自定义事件处理，两个连续事件的id是连续的，两个独立事件之间id间隔一个
 		if do_id == 1 then
-			if rpg.message(g_temp,g_messagebox,"你获得了一朵大红花！",rpg.fadenormal) then
+			if rpgcommon.message(g_temp,"你获得了一朵大红花！",rpgcommon.fade.normal) then
 				do_event = false
 				do_id = 0
 				obj[4][3] = 0
-				g_obj = rpg.reloadobjlayer(g_obj,obj,g_scene,logicwidth,logicheight)
+				rpgmap.reloadobjlayer(obj)
 			end
 		elseif do_id == 3 then
-			rpg.talk(g_temp,g_box,g_portrait2,"克里斯特尔","大树，你好…")
+			rpgcommon.talk(g_temp,g_portrait2,"克里斯特尔","大树，你好…")
 		elseif do_id == 4 then
-			rpg.talk(g_temp,g_box,g_portrait3,"克里斯特尔","呀！")
+			rpgcommon.talk(g_temp,g_portrait3,"克里斯特尔","呀！")
 		elseif do_id == 5 then
 			core.screenwidth=screenwidth
 			core.screenheight=screenheight
@@ -140,36 +110,31 @@ function current.OnPaint(WndGraphic)
 end
 
 function current.OnClose()
-	DeleteImage(g_floor)
-	DeleteImage(g_obj)
-	DeleteImage(g_vir)
-	DeleteImage(g_hero)
-	DeleteImage(g_scene)
-	StopSound(bgm)
-
+	rpghero.free()
+	rpgmap.free()
+	rpgcommon.free()
 	rocker.free()
 	abkey.free()
-	DeleteImage(g_box)
+
+	StopSound(bgm)
 	DeleteImage(g_portrait)
 	DeleteImage(g_portrait2)
 	DeleteImage(g_portrait3)
-
-	DeleteImage(g_messagebox)
 end
 
 function current.OnKeyDown(nChar)
 	if nChar == core.vk["VK_DOWN"] then	
 		if isSpaceKeyDown then hero_speed = 4 else hero_speed =  2 end
-		hero_direct = 0
+		rpghero.direct = 0
 	elseif nChar == core.vk["VK_UP"] then
 		if isSpaceKeyDown then hero_speed = 4 else hero_speed =  2 end
-		hero_direct = 3
+		rpghero.direct = 3
 	elseif nChar == core.vk["VK_LEFT"] then
 		if isSpaceKeyDown then hero_speed = 4 else hero_speed =  2 end
-		hero_direct = 1
+		rpghero.direct = 1
 	elseif nChar == core.vk["VK_RIGHT"] then
 		if isSpaceKeyDown then hero_speed = 4 else hero_speed =  2 end
-		hero_direct = 2
+		rpghero.direct = 2
 	elseif nChar == core.vk["VK_SPACE"] then
 		isSpaceKeyDown = true
 		if (2 == hero_speed) then hero_speed = 4 end
@@ -180,13 +145,13 @@ function current.OnKeyUp(nChar)
 	if nChar == core.vk["VK_RETURN"] then
 		if (do_event == true) then do_id = do_id +1 end
 	elseif nChar == core.vk["VK_DOWN"] then
-		if (0 == hero_direct) then hero_speed = 0 end
+		if (0 == rpghero.direct) then hero_speed = 0 end
 	elseif nChar == core.vk["VK_UP"] then
-		if (3 == hero_direct) then hero_speed = 0 end
+		if (3 == rpghero.direct) then hero_speed = 0 end
 	elseif nChar == core.vk["VK_LEFT"] then
-		if (1 == hero_direct) then hero_speed = 0 end
+		if (1 == rpghero.direct) then hero_speed = 0 end
 	elseif nChar == core.vk["VK_RIGHT"] then
-		if (2 == hero_direct) then hero_speed = 0 end
+		if (2 == rpghero.direct) then hero_speed = 0 end
 	elseif nChar == core.vk["VK_SPACE"] then
 		isSpaceKeyDown = false
 		if (4 == hero_speed) then hero_speed = 2 end
@@ -208,9 +173,10 @@ end
 function current.OnLButtonUp(x,y)
 	if abkey.inKeyA() then current.OnKeyUp(core.vk["VK_SPACE"])
 	elseif abkey.inKeyB() then current.OnKeyUp(core.vk["VK_RETURN"])
-	else isLMouseDown = false
+	else 
+		isLMouseDown = false
+		hero_speed = 0
 	end
-	hero_speed = 0
 end
 
 function current.OnMouseMove(x,y)
@@ -219,10 +185,10 @@ function current.OnMouseMove(x,y)
 	if isLMouseDown then
 		-- 角度-90到270，下左右上0123
 		local v = rocker.getDegree(mouse_x,mouse_y)
-		if v>-45 and v<=45 then hero_direct = 2
-		elseif v>45 and v<=135 then hero_direct = 3
-		elseif v>135 and v<=225 then hero_direct = 1
-		else hero_direct = 0 end
+		if v>-45 and v<=45 then rpghero.direct = 2
+		elseif v>45 and v<=135 then rpghero.direct = 3
+		elseif v>135 and v<=225 then rpghero.direct = 1
+		else rpghero.direct = 0 end
 		if isSpaceKeyDown then hero_speed = 4 else hero_speed =  2 end
 	end
 end

@@ -29,7 +29,8 @@ Snapshots:
 ## How to build games
 
 * Edit scripts in `res\lua\`, do not modify `main.lua` and `core.lua`.
-* Use `luac.exe` to check syntax.
+* Use `lua.exe` to check syntax.
+* Use `SaveSetting(key,value)` to debug.
 * Use `ActinidiaMapEditor.exe` to build tile maps.
 * Use `IMGLinker` to put images together.
 

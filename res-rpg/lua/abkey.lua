@@ -13,38 +13,46 @@ local abkey = {
 	right_b = 60,
 	bottom_b = 60,
 
-	prepare = function(path_keya, path_keyb)
-		abkey_g_keya = GetImage(path_keya)
-		abkey_keya_r = math.floor(GetHeight(abkey_g_keya) / 2)
-		abkey_keya_x = core.screenwidth - abkey.right_a - abkey_keya_r
-		abkey_keya_y = core.screenheight - abkey.bottom_a - abkey_keya_r
+	g_keya = nil,
+	keya_r = 0,
+	keya_x = 0,
+	keya_y = 0,
+	keyb_r = 0,
+	keyb_x = 0,
+	keyb_y = 0,
 
-		abkey_g_keyb = GetImage(path_keyb)
-		abkey_keyb_r = math.floor(GetHeight(abkey_g_keyb) / 2)
-		abkey_keyb_x = core.screenwidth - abkey.right_b - abkey_keyb_r
-		abkey_keyb_y = core.screenheight - abkey.bottom_b - abkey_keyb_r
+	prepare = function(path_keya, path_keyb)
+		abkey.g_keya = GetImage(path_keya)
+		abkey.keya_r = math.floor(GetHeight(abkey.g_keya) / 2)
+		abkey.keya_x = core.screenwidth - abkey.right_a - abkey.keya_r
+		abkey.keya_y = core.screenheight - abkey.bottom_a - abkey.keya_r
+
+		abkey.g_keyb = GetImage(path_keyb)
+		abkey.keyb_r = math.floor(GetHeight(abkey.g_keyb) / 2)
+		abkey.keyb_x = core.screenwidth - abkey.right_b - abkey.keyb_r
+		abkey.keyb_y = core.screenheight - abkey.bottom_b - abkey.keyb_r
 	end,
 
 	draw = function(g)
-		PasteToImage(g,abkey_g_keya,abkey_keya_x-abkey_keya_r,abkey_keya_y-abkey_keya_r)
-		PasteToImage(g,abkey_g_keyb,abkey_keyb_x-abkey_keyb_r,abkey_keyb_y-abkey_keyb_r)
+		PasteToImage(g,abkey.g_keya,abkey.keya_x-abkey.keya_r,abkey.keya_y-abkey.keya_r)
+		PasteToImage(g,abkey.g_keyb,abkey.keyb_x-abkey.keyb_r,abkey.keyb_y-abkey.keyb_r)
 	end,
 
 	inKeyA = function()
-		return ((abkey_keya_x - mouse_x)*(abkey_keya_x - mouse_x) + 
-			(abkey_keya_y - mouse_y)*(abkey_keya_y - mouse_y) <= 
-			abkey_keya_r*abkey_keya_r)
+		return ((abkey.keya_x - mouse_x)*(abkey.keya_x - mouse_x) + 
+			(abkey.keya_y - mouse_y)*(abkey.keya_y - mouse_y) <= 
+			abkey.keya_r*abkey.keya_r)
 	end,
 
 	inKeyB = function()
-		return ((abkey_keyb_x - mouse_x)*(abkey_keyb_x - mouse_x) + 
-			(abkey_keyb_y - mouse_y)*(abkey_keyb_y - mouse_y) <= 
-			abkey_keyb_r*abkey_keyb_r)
+		return ((abkey.keyb_x - mouse_x)*(abkey.keyb_x - mouse_x) + 
+			(abkey.keyb_y - mouse_y)*(abkey.keyb_y - mouse_y) <= 
+			abkey.keyb_r*abkey.keyb_r)
 	end,
 
 	free = function()
-		DeleteImage(abkey_g_keya)
-		DeleteImage(abkey_g_keyb)
+		DeleteImage(abkey.g_keya)
+		DeleteImage(abkey.g_keyb)
 	end
 }
 return abkey
