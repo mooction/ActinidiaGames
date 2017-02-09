@@ -164,15 +164,19 @@ function current.OnKeyUp(nChar)
 end
 
 function current.OnLButtonDown(x,y)
-	if abkey.inKeyA() then current.OnKeyDown(core.vk["VK_SPACE"])
-	elseif abkey.inKeyB() then current.OnKeyDown(core.vk["VK_RETURN"])
+	local mouse_x = math.floor(x/screenwidth*768)		-- 坐标拉伸
+	local mouse_y = math.floor(y/screenheight*512)
+	if abkey.inKeyA(mouse_x,mouse_y) then current.OnKeyDown(core.vk["VK_SPACE"])
+	elseif abkey.inKeyB(mouse_x,mouse_y) then current.OnKeyDown(core.vk["VK_RETURN"])
 	else isLMouseDown = true
 	end
 end
 
 function current.OnLButtonUp(x,y)
-	if abkey.inKeyA() then current.OnKeyUp(core.vk["VK_SPACE"])
-	elseif abkey.inKeyB() then current.OnKeyUp(core.vk["VK_RETURN"])
+	local mouse_x = math.floor(x/screenwidth*768)		-- 坐标拉伸
+	local mouse_y = math.floor(y/screenheight*512)
+	if abkey.inKeyA(mouse_x,mouse_y) then current.OnKeyUp(core.vk["VK_SPACE"])
+	elseif abkey.inKeyB(mouse_x,mouse_y) then current.OnKeyUp(core.vk["VK_RETURN"])
 	else 
 		isLMouseDown = false
 		hero_speed = 0

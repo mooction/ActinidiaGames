@@ -38,13 +38,13 @@ local abkey = {
 		PasteToImage(g,abkey.g_keyb,abkey.keyb_x-abkey.keyb_r,abkey.keyb_y-abkey.keyb_r)
 	end,
 
-	inKeyA = function()
+	inKeyA = function(mouse_x,mouse_y)
 		return ((abkey.keya_x - mouse_x)*(abkey.keya_x - mouse_x) + 
 			(abkey.keya_y - mouse_y)*(abkey.keya_y - mouse_y) <= 
 			abkey.keya_r*abkey.keya_r)
 	end,
 
-	inKeyB = function()
+	inKeyB = function(mouse_x,mouse_y)
 		return ((abkey.keyb_x - mouse_x)*(abkey.keyb_x - mouse_x) + 
 			(abkey.keyb_y - mouse_y)*(abkey.keyb_y - mouse_y) <= 
 			abkey.keyb_r*abkey.keyb_r)
