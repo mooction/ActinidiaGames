@@ -23,12 +23,12 @@ local abkey = {
 
 	prepare = function(path_keya, path_keyb)
 		abkey.g_keya = GetImage(path_keya)
-		abkey.keya_r = math.floor(GetHeight(abkey.g_keya) / 2)
+		abkey.keya_r = GetHeight(abkey.g_keya)//2
 		abkey.keya_x = core.screenwidth - abkey.right_a - abkey.keya_r
 		abkey.keya_y = core.screenheight - abkey.bottom_a - abkey.keya_r
 
 		abkey.g_keyb = GetImage(path_keyb)
-		abkey.keyb_r = math.floor(GetHeight(abkey.g_keyb) / 2)
+		abkey.keyb_r = GetHeight(abkey.g_keyb)//2
 		abkey.keyb_x = core.screenwidth - abkey.right_b - abkey.keyb_r
 		abkey.keyb_y = core.screenheight - abkey.bottom_b - abkey.keyb_r
 	end,

@@ -21,12 +21,12 @@ local rocker = {
 
 	prepare = function(path_circle, path_circle_touch)
 		rocker.g_circle = GetImage(path_circle)
-		rocker.circle_r = math.floor(GetHeight(rocker.g_circle) / 2)
+		rocker.circle_r = GetHeight(rocker.g_circle)//2
 		rocker.circle_x = rocker.left + rocker.circle_r
 		rocker.circle_y = core.screenheight - rocker.circle_r - rocker.bottom
 
 		rocker.g_circle_touch = GetImage(path_circle_touch)
-		rocker.circle_touch_r = math.floor(GetHeight(rocker.g_circle_touch) / 2)
+		rocker.circle_touch_r = GetHeight(rocker.g_circle_touch)//2
 	end,
 
 	-- get the degree from mouse position to center of the circle, range(-90 ~ 270)

@@ -44,28 +44,28 @@ local rpghero = {
 	-- OnPaint中计算视野偏移量
 	calcoffset = function()
 		if rpghero.direct == 1 or rpghero.direct == 2 then
-			if rpghero.xhero<rpghero.screenwidth/2 then
+			if rpghero.xhero<rpghero.screenwidth//2 then
 				rpghero.xoffset = 0
-			elseif rpghero.xhero > rpgmap.pixelwidth - rpghero.screenwidth/2 then
+			elseif rpghero.xhero > rpgmap.pixelwidth - rpghero.screenwidth//2 then
 				rpghero.xoffset = rpgmap.pixelwidth - rpghero.screenwidth
 			else
-				rpghero.xoffset = rpghero.xhero - rpghero.screenwidth /2 
+				rpghero.xoffset = rpghero.xhero - rpghero.screenwidth//2 
 			end
 		else
-			if rpghero.yhero<rpghero.screenheight/2 then
+			if rpghero.yhero<rpghero.screenheight//2 then
 				rpghero.yoffset = 0
-			elseif rpghero.yhero > rpgmap.pixelheight - rpghero.screenheight/2 then
+			elseif rpghero.yhero > rpgmap.pixelheight - rpghero.screenheight//2 then
 				rpghero.yoffset = rpgmap.pixelheight - rpghero.screenheight
 			else
-				rpghero.yoffset = rpghero.yhero - rpghero.screenheight /2 
+				rpghero.yoffset = rpghero.yhero - rpghero.screenheight//2 
 			end
 		end
 	end,
 
 	-- 将像素坐标转换为逻辑坐标
 	pixeltologic = function(x,y)
-		x = math.floor(x/rpgmap.sidelen)+1
-		y = math.floor(y/rpgmap.sidelen)+1
+		x = x//rpgmap.sidelen+1
+		y = y//rpgmap.sidelen+1
 		return x,y
 	end,
 
@@ -87,7 +87,7 @@ local rpghero = {
 			end
 			i,j= rpghero.pixeltologic(rpghero.xhero,rpghero.yhero) -- 左下角
 			m,n= rpghero.pixeltologic(rpghero.xhero+rpgmap.sidelen-1,rpghero.yhero) -- 右下角
-			p,q= rpghero.pixeltologic(rpghero.xhero+rpgmap.sidelen/2,rpghero.yhero)	-- 正前方
+			p,q= rpghero.pixeltologic(rpghero.xhero+rpgmap.sidelen//2,rpghero.yhero)	-- 正前方
 			if obj[i][j] == 0 and obj[m][n] == 0 then do return rpghero.xhero,rpghero.yhero,p,q end
 			elseif obj[i][j] == 0 and obj[m][n] ~= 0 then rpghero.xhero = rpghero.xhero-1
 			elseif obj[i][j] ~= 0 and obj[m][n] == 0 then rpghero.xhero = rpghero.xhero+1
@@ -102,7 +102,7 @@ local rpghero = {
 			end
 			i,j= rpghero.pixeltologic(rpghero.xhero,rpghero.yhero-rpgmap.sidelen+1) -- 左上角
 			m,n= rpghero.pixeltologic(rpghero.xhero+rpgmap.sidelen-1,rpghero.yhero-rpgmap.sidelen+1) -- 右上角
-			p,q= rpghero.pixeltologic(rpghero.xhero+rpgmap.sidelen/2,rpghero.yhero-rpgmap.sidelen+1)	-- 正前方
+			p,q= rpghero.pixeltologic(rpghero.xhero+rpgmap.sidelen//2,rpghero.yhero-rpgmap.sidelen+1)	-- 正前方
 			if obj[i][j] == 0 and obj[m][n] == 0 then do return rpghero.xhero,rpghero.yhero,p,q end 
 			elseif obj[i][j] == 0 and obj[m][n] ~= 0 then rpghero.xhero = rpghero.xhero-1
 			elseif obj[i][j] ~= 0 and obj[m][n] == 0 then rpghero.xhero = rpghero.xhero+1
@@ -117,7 +117,7 @@ local rpghero = {
 			end
 			i,j= rpghero.pixeltologic(rpghero.xhero,rpghero.yhero-rpgmap.sidelen+1) -- 左上角
 			m,n= rpghero.pixeltologic(rpghero.xhero,rpghero.yhero) -- 左下角
-			p,q= rpghero.pixeltologic(rpghero.xhero,rpghero.yhero-rpgmap.sidelen/2)	-- 正前方
+			p,q= rpghero.pixeltologic(rpghero.xhero,rpghero.yhero-rpgmap.sidelen//2)	-- 正前方
 			if obj[i][j] == 0 and obj[m][n] == 0 then do return rpghero.xhero,rpghero.yhero,p,q end 
 			elseif obj[i][j] == 0 and obj[m][n] ~= 0 then rpghero.yhero = rpghero.yhero-1
 			elseif obj[i][j] ~= 0 and obj[m][n] == 0 then rpghero.yhero = rpghero.yhero+1
@@ -132,7 +132,7 @@ local rpghero = {
 			end
 			i,j= rpghero.pixeltologic(rpghero.xhero+rpgmap.sidelen-1,rpghero.yhero-rpgmap.sidelen+1) -- 右上角
 			m,n= rpghero.pixeltologic(rpghero.xhero+rpgmap.sidelen-1,rpghero.yhero) -- 右下角
-			p,q= rpghero.pixeltologic(rpghero.xhero+rpgmap.sidelen-1,rpghero.yhero-rpgmap.sidelen/2)	-- 正前方
+			p,q= rpghero.pixeltologic(rpghero.xhero+rpgmap.sidelen-1,rpghero.yhero-rpgmap.sidelen//2)	-- 正前方
 			if obj[i][j] == 0 and obj[m][n] == 0 then do return rpghero.xhero,rpghero.yhero,p,q end 
 			elseif obj[i][j] == 0 and obj[m][n] ~= 0 then rpghero.yhero = rpghero.yhero-1
 			elseif obj[i][j] ~= 0 and obj[m][n] == 0 then rpghero.yhero = rpghero.yhero+1
@@ -149,22 +149,22 @@ local rpghero = {
 			if rpghero.yhero+2 > rpgmap.pixelheight then 
 			 	do return 0,0 end 
 			end
-			do return rpghero.xhero+rpgmap.sidelen/2,rpghero.yhero end
+			do return rpghero.xhero+rpgmap.sidelen//2,rpghero.yhero end
 		elseif rpghero.direct == 3 then	-- 上
 			if rpghero.yhero-2 < rpgmap.sidelen then 
 			 	do return 0,0 end 
 			end
-			do return rpghero.xhero+rpgmap.sidelen/2,rpghero.yhero-rpgmap.sidelen+1 end
+			do return rpghero.xhero+rpgmap.sidelen//2,rpghero.yhero-rpgmap.sidelen+1 end
 		elseif rpghero.direct == 1 then	-- 左
 			if rpghero.xhero-2 < 0 then 
 				do return 0,0 end 
 			end
-			do return rpghero.xhero,rpghero.yhero-rpgmap.sidelen/2 end
+			do return rpghero.xhero,rpghero.yhero-rpgmap.sidelen//2 end
 		elseif rpghero.direct == 2 then	-- 右
 			if rpghero.xhero+2 > rpgmap.pixelwidth - rpgmap.sidelen then 
 				do return 0,0 end 
 			end
-			do return rpghero.xhero+rpgmap.sidelen-1,rpghero.yhero-rpgmap.sidelen/2 end
+			do return rpghero.xhero+rpgmap.sidelen-1,rpghero.yhero-rpgmap.sidelen//2 end
 		end
 	end,
 

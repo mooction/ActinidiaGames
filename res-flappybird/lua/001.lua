@@ -5,8 +5,8 @@ local current = {}
 ======================================================]]
 screenwidth = core.screenwidth
 screenheight = core.screenheight
-core.screenwidth=768		-- 重置分辨率到768x512
-core.screenheight=512		-- 绘制到屏幕上再拉伸
+core.screenwidth=800		-- 重置分辨率到800x600
+core.screenheight=600		-- 绘制到屏幕上再拉伸
 
 lBird=36
 rBird=18
@@ -40,17 +40,17 @@ nDemo = 0;			-- demo帧
 -- 显示得分
 function drawscore(d, g, score, xDest, yDest, wNum, hNum, NumberPerLine)
 	if (score < 10)	then
-		PasteToImageEx(d, g, xDest, yDest, wNum, hNum, score%NumberPerLine*wNum, math.floor(score/NumberPerLine)*hNum, wNum, hNum);
+		PasteToImageEx(d, g, xDest, yDest, wNum, hNum, score%NumberPerLine*wNum, score//NumberPerLine*hNum, wNum, hNum);
 	elseif (score < 100) then
-		PasteToImageEx(d, g, xDest, yDest, wNum, hNum, math.floor(score/10) % NumberPerLine*wNum, math.floor(math.floor(score/10)/NumberPerLine)*hNum, wNum, hNum);
-		PasteToImageEx(d, g, xDest + wNum, yDest, wNum, hNum, score % 10 % NumberPerLine*wNum, math.floor(score%10/NumberPerLine)*hNum, wNum, hNum);
+		PasteToImageEx(d, g, xDest, yDest, wNum, hNum, score//10 % NumberPerLine*wNum, score//10//NumberPerLine*hNum, wNum, hNum);
+		PasteToImageEx(d, g, xDest + wNum, yDest, wNum, hNum, score % 10 % NumberPerLine*wNum, score%10//NumberPerLine*hNum, wNum, hNum);
 	else
-		tscore = math.floor(score/100);	-- 百位数
-		PasteToImageEx(d, g, xDest, yDest, wNum, hNum, tscore % NumberPerLine*wNum, math.floor(tscore/NumberPerLine)*hNum, wNum, hNum);
+		tscore = score//100;	-- 百位数
+		PasteToImageEx(d, g, xDest, yDest, wNum, hNum, tscore % NumberPerLine*wNum, tscore//NumberPerLine*hNum, wNum, hNum);
 		tscore = score % 100;			-- 后两位数
-		PasteToImageEx(d, g, xDest + wNum, yDest, wNum, hNum, math.floor(tscore/10) % NumberPerLine*wNum, math.floor(math.floor(tscore/10)/NumberPerLine)*hNum, wNum, hNum);
+		PasteToImageEx(d, g, xDest + wNum, yDest, wNum, hNum, tscore//10 % NumberPerLine*wNum, tscore//10//NumberPerLine*hNum, wNum, hNum);
 		tscore = tscore % 10;			-- 个位数
-		PasteToImageEx(d, g, xDest + wNum + wNum, yDest, wNum, hNum, tscore % NumberPerLine*wNum, math.floor(tscore/NumberPerLine)*hNum, wNum, hNum);
+		PasteToImageEx(d, g, xDest + wNum + wNum, yDest, wNum, hNum, tscore % NumberPerLine*wNum, tscore//NumberPerLine*hNum, wNum, hNum);
 	end
 end
 
@@ -288,9 +288,9 @@ function current.OnLButtonDown(x,y)
 	elseif not ending and nDemo > 74 then	-- 游戏已结束且动画播放完，且DEMO播放完，开始新游戏
 		y = 0;					-- 位置初始化：在屏幕外
 		vy = 3;					-- 速度初始化：掉下
-		v_f = -12.0				-- 初始跳跃力
-		v_g = 1.3				-- 初始重力加速度
-		v_z = 6.4 				-- 初始障碍物速度
+		v_f = -8.0				-- 初始跳跃力
+		v_g = 0.5				-- 初始重力加速度
+		v_z = 3.4 				-- 初始障碍物速度
 		
 		for i=1,hPipe do		-- 障碍物位置初始化
 			z[i].x = core.screenwidth + i*divPipe;

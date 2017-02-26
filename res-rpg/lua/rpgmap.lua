@@ -34,13 +34,13 @@ local rpgmap = {
 			for j=1,rpgmap.logicheight do
 				PasteToImageEx(rpgmap.g_floor,rpgmap.g_scene,(i-1)*rpgmap.sidelen,(j-1)*rpgmap.sidelen,
 					rpgmap.sidelen,rpgmap.sidelen,floor[i][j]%rpgmap.num_per_line*rpgmap.sidelen,
-					math.floor(floor[i][j]/rpgmap.num_per_line)*rpgmap.sidelen,rpgmap.sidelen,rpgmap.sidelen)
+					floor[i][j]//rpgmap.num_per_line*rpgmap.sidelen,rpgmap.sidelen,rpgmap.sidelen)
 				PasteToImageEx(rpgmap.g_obj,rpgmap.g_scene,(i-1)*rpgmap.sidelen,(j-1)*rpgmap.sidelen,
 					rpgmap.sidelen,rpgmap.sidelen,obj[i][j]%rpgmap.num_per_line*rpgmap.sidelen,
-					math.floor(obj[i][j]/rpgmap.num_per_line)*rpgmap.sidelen,rpgmap.sidelen,rpgmap.sidelen)
+					obj[i][j]//rpgmap.num_per_line*rpgmap.sidelen,rpgmap.sidelen,rpgmap.sidelen)
 				PasteToImageEx(rpgmap.g_vir,rpgmap.g_scene,(i-1)*rpgmap.sidelen,(j-1)*rpgmap.sidelen,
 					rpgmap.sidelen,rpgmap.sidelen,vir[i][j]%rpgmap.num_per_line*rpgmap.sidelen,
-					math.floor(vir[i][j]/rpgmap.num_per_line)*rpgmap.sidelen,rpgmap.sidelen,rpgmap.sidelen)
+					vir[i][j]//rpgmap.num_per_line*rpgmap.sidelen,rpgmap.sidelen,rpgmap.sidelen)
 			end
 		end
 	end,
@@ -53,7 +53,7 @@ local rpgmap = {
 			for j=1,logicheight do
 				PasteToImageEx(rpgmap.g_floor,rpgmap.g_scene,(i-1)*rpgmap.sidelen,(j-1)*rpgmap.sidelen,
 					rpgmap.sidelen,rpgmap.sidelen,floor[i][j]%rpgmap.num_per_line*rpgmap.sidelen,
-					math.floor(floor[i][j]/rpgmap.num_per_line)*rpgmap.sidelen,rpgmap.sidelen,rpgmap.sidelen)
+					floor[i][j]//rpgmap.num_per_line*rpgmap.sidelen,rpgmap.sidelen,rpgmap.sidelen)
 			end
 		end
 	end,
@@ -66,7 +66,7 @@ local rpgmap = {
 			for j=1,logicheight do
 				PasteToImageEx(rpgmap.g_obj,rpgmap.g_scene,(i-1)*rpgmap.sidelen,(j-1)*rpgmap.sidelen,
 					rpgmap.sidelen,rpgmap.sidelen,obj[i][j]%rpgmap.num_per_line*rpgmap.sidelen,
-					math.floor(obj[i][j]/rpgmap.num_per_line)*rpgmap.sidelen,rpgmap.sidelen,rpgmap.sidelen)
+					obj[i][j]//rpgmap.num_per_line*rpgmap.sidelen,rpgmap.sidelen,rpgmap.sidelen)
 			end
 		end
 	end,
@@ -79,7 +79,7 @@ local rpgmap = {
 			for j=1,logicheight do
 				PasteToImageEx(rpgmap.g_vir,rpgmap.g_scene,(i-1)*rpgmap.sidelen,(j-1)*rpgmap.sidelen,
 					rpgmap.sidelen,rpgmap.sidelen,vir[i][j]%rpgmap.num_per_line*rpgmap.sidelen,
-					math.floor(vir[i][j]/rpgmap.num_per_line)*rpgmap.sidelen,rpgmap.sidelen,rpgmap.sidelen)
+					vir[i][j]//rpgmap.num_per_line*rpgmap.sidelen,rpgmap.sidelen,rpgmap.sidelen)
 			end
 		end
 	end,

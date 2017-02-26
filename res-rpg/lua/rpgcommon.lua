@@ -47,8 +47,8 @@ local rpgcommon = {
 	-- 显示消息框，显示完毕返回true，否则false
 	message = function(g_temp,text,fade)
 		if rpgcommon.alpha ~= 45 then
-			local dx = (rpgcommon.screenwidth - GetWidth(rpgcommon.g_messagebox))/2
-			local dy = (rpgcommon.screenheight - GetHeight(rpgcommon.g_messagebox))/2
+			local dx = (rpgcommon.screenwidth - GetWidth(rpgcommon.g_messagebox))//2
+			local dy = (rpgcommon.screenheight - GetHeight(rpgcommon.g_messagebox))//2
 			AlphaBlend(g_temp,rpgcommon.g_messagebox,dx,dy,math.floor(rpgcommon.alpha))
 			PrintText(g_temp,dx+32,dy+36,text,rpgcommon.txtfont,rpgcommon.txtnormal,rpgcommon.black)
 			rpgcommon.alpha = rpgcommon.alpha - fade
