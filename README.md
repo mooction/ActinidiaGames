@@ -2,7 +2,7 @@
 
 ## What's this
 
-These are products made by [Actinidia](https://github.com/mooction/Actinidia).
+These are games on [Actinidia](https://github.com/mooction/Actinidia).
 
 ## How to play
 
@@ -14,9 +14,9 @@ These are products made by [Actinidia](https://github.com/mooction/Actinidia).
 **Android**
 
 * Download [ActinidiaOnAndroid](http://moooc.cc/actinidia.apk) and install
-* Provide SD Card access permission
-* Copy games here or download [ActinidiaGames](http://moooc.cc/ActinidiaGames.zip) and extract folders to `sdcard/ActinidiaGames`
-* Launch ActinidiaOnAndroid and choose a game.
+* Download games with it.
+* If you have built your own game, copy it to `sdcard/ActinidiaGames`
+* Launch Actinidia and choose a local game. (If failed, make sure you have SDCard permission.)
 
 Snapshots:
 * [RPG](http://7nas1f.com1.z0.glb.clouddn.com/actinidia_prev1.png)
@@ -38,6 +38,12 @@ Snapshots:
 
 ## How to publish
 
+**Windows**
+
 * Drag `res` folder onto `APacker.exe`
 * Pack `ActinidiaGo.exe`, `bass.dll`, `res.pak`, `res.dat`
 * Share with others
+
+**Android**
+
+Please visit [](http://bbs.moooc.cc/) to submit your application. We will upload your game after verified.
