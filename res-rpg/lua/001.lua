@@ -162,7 +162,7 @@ function current.OnKeyUp(nChar)
 		if (4 == hero_speed) then hero_speed = 2 end
 	elseif nChar == core.vk["VK_F4"] then
 		if Screenshot() then
-			local bgm = GetSound("res\\sound\\core\\拍照.wav",false)
+			local bgm = GetSound("res\\sound\\core\\screenshot.wav",false)
 			PlaySound(bgm)
 		end
 	end

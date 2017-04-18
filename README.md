@@ -36,6 +36,10 @@ Snapshots:
 
 > *ActinidiaMapEditor* load images in `res\scene`.
 
+## Attention
+
+**Do NOT use non-ascii characters in file path!** That will cause some bugs.
+
 ## How to publish
 
 **Windows**
