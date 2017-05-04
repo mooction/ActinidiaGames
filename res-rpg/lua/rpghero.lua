@@ -9,9 +9,6 @@ TODO:
 	current.OnClose:	rpghero.free()
 ]]
 local rpghero = {
-	screenwidth = 768,
-	screenheight = 512,
-
 	xhero = 0, 			-- 主角左下角初始坐标
 	yhero = 0,
 
@@ -30,34 +27,34 @@ local rpghero = {
 	end,
 
 	-- OnPaint中将三个图形层叠加到g_temp
-	draw = function(g_temp)
-		PasteToImageEx(g_temp,rpgmap.g_floor,0,0,rpghero.screenwidth,rpghero.screenheight,
-			rpghero.xoffset,rpghero.yoffset,rpghero.screenwidth,rpghero.screenheight)
-		PasteToImageEx(g_temp,rpgmap.g_obj,0,0,rpghero.screenwidth,rpghero.screenheight,
-			rpghero.xoffset,rpghero.yoffset,rpghero.screenwidth,rpghero.screenheight)
+	draw = function(g_temp, canvas_width, canvas_height)
+		PasteToImageEx(g_temp,rpgmap.g_floor,0,0,canvas_width,canvas_height,
+			rpghero.xoffset,rpghero.yoffset,canvas_width,canvas_height)
+		PasteToImageEx(g_temp,rpgmap.g_obj,0,0,canvas_width,canvas_height,
+			rpghero.xoffset,rpghero.yoffset,canvas_width,canvas_height)
 		PasteToImageEx(g_temp,rpghero.g_hero,rpghero.xhero-rpghero.xoffset,rpghero.yhero-rpghero.heroheight-rpghero.yoffset,rpghero.herowidth,rpghero.heroheight,
 			rpghero.herowidth*rpghero.frame,rpghero.heroheight*rpghero.direct,rpghero.herowidth,rpghero.heroheight)
-		PasteToImageEx(g_temp,rpgmap.g_vir,0,0,rpghero.screenwidth,rpghero.screenheight,
-			rpghero.xoffset,rpghero.yoffset,rpghero.screenwidth,rpghero.screenheight)
+		PasteToImageEx(g_temp,rpgmap.g_vir,0,0,canvas_width,canvas_height,
+			rpghero.xoffset,rpghero.yoffset,canvas_width,canvas_height)
 	end,
 
 	-- OnPaint中计算视野偏移量
-	calcoffset = function()
+	calcoffset = function(canvas_width, canvas_height)
 		if rpghero.direct == 1 or rpghero.direct == 2 then
-			if rpghero.xhero<rpghero.screenwidth//2 then
+			if rpghero.xhero<canvas_width//2 then
 				rpghero.xoffset = 0
-			elseif rpghero.xhero > rpgmap.pixelwidth - rpghero.screenwidth//2 then
-				rpghero.xoffset = rpgmap.pixelwidth - rpghero.screenwidth
+			elseif rpghero.xhero > rpgmap.pixelwidth - canvas_width//2 then
+				rpghero.xoffset = rpgmap.pixelwidth - canvas_width
 			else
-				rpghero.xoffset = rpghero.xhero - rpghero.screenwidth//2 
+				rpghero.xoffset = rpghero.xhero - canvas_width//2 
 			end
 		else
-			if rpghero.yhero<rpghero.screenheight//2 then
+			if rpghero.yhero<canvas_height//2 then
 				rpghero.yoffset = 0
-			elseif rpghero.yhero > rpgmap.pixelheight - rpghero.screenheight//2 then
-				rpghero.yoffset = rpgmap.pixelheight - rpghero.screenheight
+			elseif rpghero.yhero > rpgmap.pixelheight - canvas_height//2 then
+				rpghero.yoffset = rpgmap.pixelheight - canvas_height
 			else
-				rpghero.yoffset = rpghero.yhero - rpghero.screenheight//2 
+				rpghero.yoffset = rpghero.yhero - canvas_height//2 
 			end
 		end
 	end,

@@ -9,10 +9,8 @@ local current = {}
 
 --[[ 全局定义
 ======================================================]]
-screenwidth = core.screenwidth
-screenheight = core.screenheight
-core.screenwidth=768
-core.screenheight=512
+canvas_width=768
+canvas_height=512
 
 hero_speed = 0 			-- 主角运动速度（走2，跑4）
 hero_slowfeet = 0 		-- 防止脚发生鬼畜
@@ -32,8 +30,8 @@ function current.OnCreate()
 	rpgcommon.prepare("res\\pics\\skin\\conversation-box.png","res\\pics\\skin\\message.png")
 	rpgmap.prepare("res\\scene\\LAND1.png",logicwidth,logicheight,floor,obj,vir)
 	rpghero.prepare("res\\role\\npc\\01.png")
-	rocker.prepare("res\\pics\\skin\\circle.png", "res\\pics\\skin\\circle_touch.png")
-	abkey.prepare("res\\pics\\skin\\key_a.png", "res\\pics\\skin\\key_b.png")
+	rocker.prepare(canvas_height, "res\\pics\\skin\\circle.png", "res\\pics\\skin\\circle_touch.png")
+	abkey.prepare(canvas_width, canvas_height, "res\\pics\\skin\\key_a.png", "res\\pics\\skin\\key_b.png")
 
 	bgm = GetSound("res\\sound\\bgm\\In the Night Garden Closing Theme.mp3",true)
 	SetVolume(bgm,0.5)
@@ -54,13 +52,13 @@ alpha = 255
 	OnPaint中处理事件，如果需要切换地图，返回新地图的文件名
 ]]
 function current.OnPaint(WndGraphic)
-	local g_temp = CreateImage(core.screenwidth,core.screenheight)	-- 缓冲层
+	local g_temp = CreateImage(canvas_width,canvas_height)	-- 缓冲层
 	local x = 0 	-- 正前方逻辑x坐标
 	local y = 0 	-- y
 	
 	if hero_speed ~= 0 and not do_event then
 		x,y = rpghero.move(hero_speed,obj)	-- 主角运动
-		rpghero.calcoffset()			-- 视野偏移
+		rpghero.calcoffset(canvas_width,canvas_height)			-- 视野偏移
 		
 		hero_slowfeet = hero_slowfeet + 1
 		if hero_slowfeet == 7 then
@@ -70,18 +68,16 @@ function current.OnPaint(WndGraphic)
 		end
 	end
 
-	rpghero.draw(g_temp)	-- 显示四层图形
+	rpghero.draw(g_temp,canvas_width,canvas_height)	-- 显示四层图形
 
 	if do_event then	-- 自定义事件处理，两个连续事件的id是连续的，两个独立事件之间id间隔一个
 		if do_id == 1 then
-			rpgcommon.talk(g_temp,g_portrait,"克里斯特尔","忍者村？")
+			rpgcommon.talk(g_temp,canvas_height,g_portrait,"克里斯特尔","忍者村？")
 		elseif do_id == 3 then
-			rpgcommon.talk(g_temp,g_portrait,"克里斯特尔","隧道完工，今天免费？")
+			rpgcommon.talk(g_temp,canvas_height,g_portrait,"克里斯特尔","隧道完工，今天免费？")
 		elseif do_id == 4 then
-			rpgcommon.talk(g_temp,g_portrait2,"克里斯特尔","太棒了！")
+			rpgcommon.talk(g_temp,canvas_height,g_portrait2,"克里斯特尔","太棒了！")
 		elseif do_id == 6 then
-			core.screenwidth=screenwidth
-			core.screenheight=screenheight
 			do return "res\\lua\\002.lua" end	-- 切换场景
 		else
 			do_event = false
@@ -108,8 +104,8 @@ function current.OnPaint(WndGraphic)
 		alpha = alpha -rpgcommon.fade.fast
 	end
 
-	PasteToWndEx(WndGraphic,g_temp,0,0,screenwidth,screenheight,
-		0,0,core.screenwidth,core.screenheight)	-- 显示到屏幕上
+	PasteToWndEx(WndGraphic,g_temp,0,0,core.screenwidth,core.screenheight,
+		0,0,canvas_width,canvas_height)	-- 显示到屏幕上
 	DeleteImage(g_temp)
 	return ""
 end
@@ -169,19 +165,23 @@ function current.OnKeyUp(nChar)
 end
 
 function current.OnLButtonDown(x,y)
-	local mouse_x = x*768//screenwidth		-- 坐标拉伸
-	local mouse_y = y*512//screenheight
-	if abkey.inKeyA(mouse_x,mouse_y) then current.OnKeyDown(core.vk["VK_SPACE"])
-	elseif abkey.inKeyB(mouse_x,mouse_y) then current.OnKeyDown(core.vk["VK_RETURN"])
+	local mouse_x = x*canvas_width//core.screenwidth		-- 坐标拉伸
+	local mouse_y = y*canvas_height//core.screenheight
+	if abkey.inKeyA(mouse_x,mouse_y) then
+		current.OnKeyDown(core.vk["VK_RETURN"])
+	elseif abkey.inKeyB(mouse_x,mouse_y) then
+		current.OnKeyDown(core.vk["VK_SPACE"])
 	else isLMouseDown = true
 	end
 end
 
 function current.OnLButtonUp(x,y)
-	local mouse_x = x*768//screenwidth		-- 坐标拉伸
-	local mouse_y = y*512//screenheight
-	if abkey.inKeyA(mouse_x,mouse_y) then current.OnKeyUp(core.vk["VK_SPACE"])
-	elseif abkey.inKeyB(mouse_x,mouse_y) then current.OnKeyUp(core.vk["VK_RETURN"])
+	local mouse_x = x*canvas_width//core.screenwidth		-- 坐标拉伸
+	local mouse_y = y*canvas_height//core.screenheight
+	if abkey.inKeyA(mouse_x,mouse_y) then
+		current.OnKeyUp(core.vk["VK_RETURN"])
+	elseif abkey.inKeyB(mouse_x,mouse_y) then
+		current.OnKeyUp(core.vk["VK_SPACE"])
 	else 
 		isLMouseDown = false
 		hero_speed = 0
@@ -189,8 +189,8 @@ function current.OnLButtonUp(x,y)
 end
 
 function current.OnMouseMove(x,y)
-	mouse_x = x*768//screenwidth		-- 坐标拉伸
-	mouse_y = y*512//screenheight
+	mouse_x = x*canvas_width//core.screenwidth		-- 坐标拉伸
+	mouse_y = y*canvas_height//core.screenheight
 	if isLMouseDown then
 		-- 角度-90到270，下左右上0123
 		local v = rocker.getDegree(mouse_x,mouse_y)

@@ -3,8 +3,8 @@ Module:			rocker
 Description:	Rocker implement
 TODO:
 	global:		rocker = load(GetText("res\\lua\\rocker.lua"))()
-	current.OnCreate:	rocker.prepare(path_circle, path_circle_touch)
-	current.OnPaint:	rocker.draw(g_temp,mouse_x,mouse_y)
+	current.OnCreate:	rocker.prepare(canvas_height, path_circle, path_circle_touch)
+	current.OnPaint:	rocker.draw(g_temp, mouse_x, mouse_y)
 	current.OnClose:	rocker.free()
 ]]
 local rocker = {
@@ -19,11 +19,11 @@ local rocker = {
 	g_circle_touch = nil,
 	circle_touch_r = 0,
 
-	prepare = function(path_circle, path_circle_touch)
+	prepare = function(canvas_height, path_circle, path_circle_touch)
 		rocker.g_circle = GetImage(path_circle)
 		rocker.circle_r = GetHeight(rocker.g_circle)//2
 		rocker.circle_x = rocker.left + rocker.circle_r
-		rocker.circle_y = core.screenheight - rocker.circle_r - rocker.bottom
+		rocker.circle_y = canvas_height - rocker.circle_r - rocker.bottom
 
 		rocker.g_circle_touch = GetImage(path_circle_touch)
 		rocker.circle_touch_r = GetHeight(rocker.g_circle_touch)//2

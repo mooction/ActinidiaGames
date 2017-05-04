@@ -3,10 +3,8 @@ local current = {}
 
 --[[ global
 ======================================================]]
-screenwidth = core.screenwidth
-screenheight = core.screenheight
-core.screenwidth=800		-- 重置分辨率到800x600
-core.screenheight=600		-- 绘制到屏幕上再拉伸
+canvas_width=800		-- 重置分辨率到800x600
+canvas_height=600		-- 绘制到屏幕上再拉伸
 
 lBird=36
 rBird=18
@@ -78,7 +76,7 @@ end
 
 -- 碰撞判定+分数处理
 function crash()
-	if y > core.screenheight + 50 then				-- 运动到屏幕底部,50px余地
+	if y > canvas_height + 50 then				-- 运动到屏幕底部,50px余地
 		y = -20;
 		vy = 0;
 		TimerFlag = false;			-- 关闭定时器
@@ -100,7 +98,7 @@ function crash()
 	end
 
 	if (z[closest].down) then
-		if ((distance < rBird) and (distance > 0) and (y > core.screenheight - z[closest].h)) or ((distance < 0) and (core.screenheight - z[closest].h - y < rBird)) then
+		if ((distance < rBird) and (distance > 0) and (y > canvas_height - z[closest].h)) or ((distance < 0) and (canvas_height - z[closest].h - y < rBird)) then
 			gamestart = false;		-- 游戏结束
 			ending = true;
 			vy = 0;
@@ -149,7 +147,7 @@ function current.OnCreate()
 	s_wing = GetSound("res\\sound\\wing.wav", false)
 
 	-- 准备
-	g_temp = CreateImageEx(core.screenwidth, core.screenheight, core.white);	-- 缓冲层
+	g_temp = CreateImageEx(canvas_width, canvas_height, core.white);	-- 缓冲层
 	math.randomseed(os.time())
 	return ""
 end
@@ -157,7 +155,7 @@ end
 -- if need change map, return new map name
 function current.OnPaint(WndGraphic)
 	if not TimerFlag then		-- 游戏结束，显示得分
-		PasteToWndEx(WndGraphic,g_temp,0,0,screenwidth,screenheight,0,0,core.screenwidth,core.screenheight);
+		PasteToWndEx(WndGraphic,g_temp,0,0,core.screenwidth,core.screenheight,0,0,canvas_width,canvas_height);
 		do return"" end
 	end;
 	if (gamestart and not gamepause) or ending then 	-- 核心绘图（更新下一帧）
@@ -166,24 +164,24 @@ function current.OnPaint(WndGraphic)
 		-- 游戏中，移动背景图
 		if not ending then
 			bgx = bgx - BGSpeed;	-- 背景图运动
-			if bgx <= -core.screenwidth then bgx = -1 end
+			if bgx <= -canvas_width then bgx = -1 end
 		end
 		-- 碰撞判定+分数处理
 		crash();
 		-- 贴背景图(把到左边去的部分贴到右边)
-		PasteToImageEx(g_temp, g_bg, 0, 0, core.screenwidth + bgx, core.screenheight, -bgx, 0, core.screenwidth + bgx, core.screenheight);
-		PasteToImageEx(g_temp, g_bg, core.screenwidth + bgx, 0, -bgx, core.screenheight, 0, 0, -bgx, core.screenheight);
+		PasteToImageEx(g_temp, g_bg, 0, 0, canvas_width + bgx, canvas_height, -bgx, 0, canvas_width + bgx, canvas_height);
+		PasteToImageEx(g_temp, g_bg, canvas_width + bgx, 0, -bgx, canvas_height, 0, 0, -bgx, canvas_height);
 		-- 绘制障碍物
 		for i=1,hPipe do
 			if z[i].down then		 -- 在屏幕下方
-				PasteToImageEx(g_temp, g_pipe_bottom, z[i].x, core.screenheight-z[i].h, wPipe, z[i].h, 0, 0, wPipe, z[i].h);
+				PasteToImageEx(g_temp, g_pipe_bottom, z[i].x, canvas_height-z[i].h, wPipe, z[i].h, 0, 0, wPipe, z[i].h);
 			else
 				PasteToImageEx(g_temp, g_pipe_top, z[i].x, 0, wPipe, z[i].h, 0, 500 - z[i].h, wPipe, z[i].h);
 			end
 			if not ending then		-- 播放结束动画，不移动障碍物
 				z[i].x = z[i].x - math.floor(v_z);
 				if z[i].x < -wPipe then
-					z[i].x = core.screenwidth;		-- 到屏幕外，退到最右边
+					z[i].x = canvas_width;		-- 到屏幕外，退到最右边
 					z[i].h = math.random(160,400);	-- 新随机高度
 					updown = not updown;
 					z[i].down = updown;
@@ -207,34 +205,34 @@ function current.OnPaint(WndGraphic)
 			DisplayGameOver(g_temp);		-- 显示“游戏结束”字样及分数
 		end
 		-- 显示
-		PasteToWndEx(WndGraphic,g_temp,0,0,screenwidth,screenheight,0,0,core.screenwidth,core.screenheight);
+		PasteToWndEx(WndGraphic,g_temp,0,0,core.screenwidth,core.screenheight,0,0,canvas_width,canvas_height);
 	elseif gamepause then					-- 游戏暂停时
-		PasteToWndEx(WndGraphic,g_temp,0,0,screenwidth,screenheight,0,0,core.screenwidth,core.screenheight);		-- 显示
+		PasteToWndEx(WndGraphic,g_temp,0,0,core.screenwidth,core.screenheight,0,0,canvas_width,canvas_height);		-- 显示
 	else
 		-- 游戏未开始，显示DEMO
 		-- 开始绘图（更新下一帧）
 		bgx = bgx - BGSpeed;				-- 背景图运动
-		if bgx <= -core.screenwidth then bgx = -1 end
+		if bgx <= -canvas_width then bgx = -1 end
 		if nDemo > 74 then
 			-- 贴背景图(把到左边去的部分贴到右边)
-			PasteToImageEx(g_temp, g_bg, 0, 0, core.screenwidth + bgx, core.screenheight, -bgx, 0, core.screenwidth + bgx, core.screenheight);
-			PasteToImageEx(g_temp, g_bg, core.screenwidth + bgx, 0, -bgx, core.screenheight, 0, 0, -bgx, core.screenheight);
+			PasteToImageEx(g_temp, g_bg, 0, 0, canvas_width + bgx, canvas_height, -bgx, 0, canvas_width + bgx, canvas_height);
+			PasteToImageEx(g_temp, g_bg, canvas_width + bgx, 0, -bgx, canvas_height, 0, 0, -bgx, canvas_height);
 			-- 贴示意图
 			PasteToImageEx(g_temp, g_caption, 250, 100, 300, 92, 0, 0, 300, 92);
 			PasteToImageEx(g_temp, g_caption, 250, 200, 227, 134, 0, 174, 227, 134);
 
-			PasteToWndEx(WndGraphic, g_temp,0,0,screenwidth,screenheight,0,0,core.screenwidth,core.screenheight)	-- 显示
+			PasteToWndEx(WndGraphic, g_temp,0,0,core.screenwidth,core.screenheight,0,0,canvas_width,canvas_height)	-- 显示
 		else
 			if demo_skip then
 				demo_skip=false;
 				-- 在屏幕中央显示demo w:400 h:225 => x = 184 y = 143
 				PasteToImageEx(g_temp, g_demo, 184, 143, 400, 225, 0, nDemo * 225, 400, 225);
-				PasteToWndEx(WndGraphic, g_temp,0,0,screenwidth,screenheight,0,0,core.screenwidth,core.screenheight);		-- 显示
+				PasteToWndEx(WndGraphic, g_temp,0,0,core.screenwidth,core.screenheight,0,0,canvas_width,canvas_height);		-- 显示
 				nDemo = nDemo +1;
 			else
 				demo_skip=true
 				PasteToImageEx(g_temp, g_demo, 184, 143, 400, 225, 0, nDemo * 225, 400, 225);
-				PasteToWndEx(WndGraphic, g_temp,0,0,screenwidth,screenheight,0,0,core.screenwidth,core.screenheight);		-- 显示
+				PasteToWndEx(WndGraphic, g_temp,0,0,core.screenwidth,core.screenheight,0,0,canvas_width,canvas_height);		-- 显示
 			end
 		end
 	end
@@ -293,7 +291,7 @@ function current.OnLButtonDown(x,y)
 		v_z = 3.4 				-- 初始障碍物速度
 		
 		for i=1,hPipe do		-- 障碍物位置初始化
-			z[i].x = core.screenwidth + i*divPipe;
+			z[i].x = canvas_width + i*divPipe;
 			z[i].h = math.random(160,400);
 			updown = not updown;
 			z[i].down = updown;

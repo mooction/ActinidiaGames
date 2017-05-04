@@ -5,7 +5,10 @@ TODO:
 	global:		core = load(GetText("res\\lua\\core.lua"))()
 ]]
 local core = {
-	screenwidth = 1024,	-- on Windows, it's 1024; on Android, it's your device's screen width
+	screenwidth = 1024,	--[[
+		on Windows, it will be overriden with preferred_width (set in config.ini, default is 1024);
+		on Android, it will be overriden with your device's screen width
+	]]
 	screenheight = 768,
 
 	black = 0x00181818,

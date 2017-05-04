@@ -3,7 +3,7 @@ Module:			abkey
 Description:	AB Key
 TODO:
 	global:		abkey = load(GetText("res\\lua\\abkey.lua"))()
-	current.OnCreate:	abkey.prepare(path_keya, path_keyb)
+	current.OnCreate:	abkey.prepare(canvas_width, canvas_height, path_keya, path_keyb)
 	current.OnPaint:	abkey.draw(g_temp)
 	current.OnClose:	abkey.free()
 ]]
@@ -21,16 +21,16 @@ local abkey = {
 	keyb_x = 0,
 	keyb_y = 0,
 
-	prepare = function(path_keya, path_keyb)
+	prepare = function(canvas_width, canvas_height, path_keya, path_keyb)
 		abkey.g_keya = GetImage(path_keya)
 		abkey.keya_r = GetHeight(abkey.g_keya)//2
-		abkey.keya_x = core.screenwidth - abkey.right_a - abkey.keya_r
-		abkey.keya_y = core.screenheight - abkey.bottom_a - abkey.keya_r
+		abkey.keya_x = canvas_width - abkey.right_a - abkey.keya_r
+		abkey.keya_y = canvas_height - abkey.bottom_a - abkey.keya_r
 
 		abkey.g_keyb = GetImage(path_keyb)
 		abkey.keyb_r = GetHeight(abkey.g_keyb)//2
-		abkey.keyb_x = core.screenwidth - abkey.right_b - abkey.keyb_r
-		abkey.keyb_y = core.screenheight - abkey.bottom_b - abkey.keyb_r
+		abkey.keyb_x = canvas_width - abkey.right_b - abkey.keyb_r
+		abkey.keyb_y = canvas_height - abkey.bottom_b - abkey.keyb_r
 	end,
 
 	draw = function(g)

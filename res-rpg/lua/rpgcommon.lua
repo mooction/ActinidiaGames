@@ -7,9 +7,6 @@ TODO:
 	current.OnClose:	rpgcommon.free()
 ]]
 local rpgcommon = {
-	screenwidth = 768,
-	screenheight = 512,
-
 	g_box = nil,
 	g_messagebox = nil,
 
@@ -27,13 +24,13 @@ local rpgcommon = {
 	end,
 
 	-- 显示交谈框
-	talk = function(g_temp,g_portrait,title,text)
+	talk = function(g_temp,canvas_height,g_portrait,title,text)
 		local h = GetHeight(rpgcommon.g_box)
-		PasteToImage(g_temp,rpgcommon.g_box,0,rpgcommon.screenheight-h)
-		PasteToImage(g_temp,g_portrait,10,rpgcommon.screenheight-GetHeight(g_portrait))
-		PrintText(g_temp, GetWidth(g_portrait)-50, rpgcommon.screenheight-h+6,
+		PasteToImage(g_temp,rpgcommon.g_box,0,canvas_height-h)
+		PasteToImage(g_temp,g_portrait,10,canvas_height-GetHeight(g_portrait))
+		PrintText(g_temp, GetWidth(g_portrait)-50, canvas_height-h+6,
 				 title, rpgcommon.txtfont, rpgcommon.txtbig, rpgcommon.black)
-		PrintText(g_temp, GetWidth(g_portrait)-50, rpgcommon.screenheight-h+38,
+		PrintText(g_temp, GetWidth(g_portrait)-50, canvas_height-h+38,
 				 text, rpgcommon.txtfont, rpgcommon.txtnormal, rpgcommon.black)
 	end,
 
@@ -45,10 +42,10 @@ local rpgcommon = {
 	},
 
 	-- 显示消息框，显示完毕返回true，否则false
-	message = function(g_temp,text,fade)
+	message = function(g_temp,canvas_width,canvas_height,text,fade)
 		if rpgcommon.alpha ~= 45 then
-			local dx = (rpgcommon.screenwidth - GetWidth(rpgcommon.g_messagebox))//2
-			local dy = (rpgcommon.screenheight - GetHeight(rpgcommon.g_messagebox))//2
+			local dx = (canvas_width - GetWidth(rpgcommon.g_messagebox))//2
+			local dy = (canvas_height - GetHeight(rpgcommon.g_messagebox))//2
 			AlphaBlend(g_temp,rpgcommon.g_messagebox,dx,dy,math.floor(rpgcommon.alpha))
 			PrintText(g_temp,dx+32,dy+36,text,rpgcommon.txtfont,rpgcommon.txtnormal,rpgcommon.black)
 			rpgcommon.alpha = rpgcommon.alpha - fade
