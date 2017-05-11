@@ -24,7 +24,7 @@ local rpgcommon = {
 	end,
 
 	-- 显示交谈框
-	talk = function(g_temp,canvas_height,g_portrait,title,text)
+	talk = function(g_temp,g_portrait,title,text)
 		local h = GetHeight(rpgcommon.g_box)
 		PasteToImage(g_temp,rpgcommon.g_box,0,canvas_height-h)
 		PasteToImage(g_temp,g_portrait,10,canvas_height-GetHeight(g_portrait))
@@ -42,7 +42,7 @@ local rpgcommon = {
 	},
 
 	-- 显示消息框，显示完毕返回true，否则false
-	message = function(g_temp,canvas_width,canvas_height,text,fade)
+	message = function(g_temp,text,fade)
 		if rpgcommon.alpha ~= 45 then
 			local dx = (canvas_width - GetWidth(rpgcommon.g_messagebox))//2
 			local dy = (canvas_height - GetHeight(rpgcommon.g_messagebox))//2

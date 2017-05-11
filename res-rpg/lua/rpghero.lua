@@ -27,7 +27,7 @@ local rpghero = {
 	end,
 
 	-- OnPaint中将三个图形层叠加到g_temp
-	draw = function(g_temp, canvas_width, canvas_height)
+	draw = function(g_temp)
 		PasteToImageEx(g_temp,rpgmap.g_floor,0,0,canvas_width,canvas_height,
 			rpghero.xoffset,rpghero.yoffset,canvas_width,canvas_height)
 		PasteToImageEx(g_temp,rpgmap.g_obj,0,0,canvas_width,canvas_height,
@@ -39,7 +39,7 @@ local rpghero = {
 	end,
 
 	-- OnPaint中计算视野偏移量
-	calcoffset = function(canvas_width, canvas_height)
+	calcoffset = function()
 		if rpghero.direct == 1 or rpghero.direct == 2 then
 			if rpghero.xhero<canvas_width//2 then
 				rpghero.xoffset = 0

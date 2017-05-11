@@ -7,7 +7,7 @@ local current = {}
 --注意保存lua编码为UTF-8
 
 
---[[ 全局定义
+--[[ global
 ======================================================]]
 canvas_width=768
 canvas_height=512
@@ -23,15 +23,15 @@ isLMouseDown = false
 mouse_x = 0
 mouse_y = 0
 
---[[ 消息响应
+--[[ messages
 ======================================================]]
 
 function current.OnCreate()
 	rpgcommon.prepare("res\\pics\\skin\\conversation-box.png","res\\pics\\skin\\message.png")
 	rpgmap.prepare("res\\scene\\LAND0.png",logicwidth,logicheight,floor,obj,vir)
 	rpghero.prepare("res\\role\\npc\\01.png")
-	rocker.prepare(canvas_height, "res\\pics\\skin\\circle.png", "res\\pics\\skin\\circle_touch.png")
-	abkey.prepare(canvas_width, canvas_height, "res\\pics\\skin\\key_a.png", "res\\pics\\skin\\key_b.png")
+	rocker.prepare("res\\pics\\skin\\circle.png", "res\\pics\\skin\\circle_touch.png")
+	abkey.prepare("res\\pics\\skin\\key_a.png", "res\\pics\\skin\\key_b.png")
 
 	bgm = GetSound("res\\sound\\bgm\\In the Night Garden Closing Theme.mp3",true)
 	SetVolume(bgm,0.5)
@@ -43,11 +43,7 @@ function current.OnCreate()
 	return ""
 end
 
---[[ 注意只有PasteToWnd接受WndGraphic指针，
-	其余的只接受ImageGraphic指针 
-
-	OnPaint中处理事件，如果需要切换地图，返回新地图的文件名
-]]
+-- if need change map, return new map name
 function current.OnPaint(WndGraphic)
 	local g_temp = CreateImage(canvas_width,canvas_height)	-- 缓冲层
 	local x = 0 	-- 正前方逻辑x坐标
@@ -55,7 +51,7 @@ function current.OnPaint(WndGraphic)
 	
 	if hero_speed ~= 0 and not do_event then
 		x,y = rpghero.move(hero_speed,obj)	-- 主角运动
-		rpghero.calcoffset(canvas_width,canvas_height)			-- 视野偏移
+		rpghero.calcoffset()			-- 视野偏移
 		
 		hero_slowfeet = hero_slowfeet + 1
 		if hero_slowfeet == 7 then
@@ -65,20 +61,20 @@ function current.OnPaint(WndGraphic)
 		end
 	end
 
-	rpghero.draw(g_temp,canvas_width,canvas_height)	-- 显示四层图形
+	rpghero.draw(g_temp)	-- 显示四层图形
 
 	if do_event then	-- 自定义事件处理，两个连续事件的id是连续的，两个独立事件之间id间隔一个
 		if do_id == 1 then
-			if rpgcommon.message(g_temp,canvas_width,canvas_height,"你获得了一朵大红花！",rpgcommon.fade.normal) then
+			if rpgcommon.message(g_temp,"你获得了一朵大红花！",rpgcommon.fade.normal) then
 				do_event = false
 				do_id = 0
 				obj[4][3] = 0
 				rpgmap.reloadobjlayer(obj)
 			end
 		elseif do_id == 3 then
-			rpgcommon.talk(g_temp,canvas_height,g_portrait2,"克里斯特尔","大树，你好…")
+			rpgcommon.talk(g_temp,g_portrait2,"克里斯特尔","大树，你好…")
 		elseif do_id == 4 then
-			rpgcommon.talk(g_temp,canvas_height,g_portrait3,"克里斯特尔","呀！")
+			rpgcommon.talk(g_temp,g_portrait3,"克里斯特尔","呀！")
 		elseif do_id == 5 then
 			do return "res\\lua\\001.lua" end	-- 切换场景		
 		else
