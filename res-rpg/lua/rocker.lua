@@ -1,7 +1,7 @@
 --[[
 Module:			rocker
 Description:	Rocker implement
-TODO:
+Usage:
 	global:		rocker = load(GetText("res\\lua\\rocker.lua"))()
 	current.OnCreate:	rocker.prepare(path_circle, path_circle_touch)
 	current.OnPaint:	rocker.draw(g_temp, mouse_x, mouse_y)

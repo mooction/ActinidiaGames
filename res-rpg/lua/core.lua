@@ -1,7 +1,7 @@
 --[[
 Module:			core
 Description:	Necessary module
-TODO:
+Usage:
 	global:		core = load(GetText("res\\lua\\core.lua"))()
 ]]
 local core = {
@@ -10,9 +10,6 @@ local core = {
 		on Android, it will be overriden with your device's screen width
 	]]
 	screenheight = 768,
-
-	black = 0x00181818,
-	white = 0x00FFFFFF,
 
 	vk = {
 		VK_BACK		=0x08,		VK_TAB		=0x09,

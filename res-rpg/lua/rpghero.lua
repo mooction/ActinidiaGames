@@ -2,7 +2,7 @@
 Module:			rpghero
 Description:	RPG hero
 Require:		rpgmap
-TODO:
+Usage:
 	global:		rpghero = load(GetText("res\\lua\\rpghero.lua"))()
 	current.OnCreate:	rpghero.prepare(path_circle, path_circle_touch)
 	current.OnPaint:	rpghero.draw(g_temp)

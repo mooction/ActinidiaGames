@@ -147,7 +147,7 @@ function current.OnCreate()
 	s_wing = GetSound("res\\sound\\wing.wav", false)
 
 	-- 准备
-	g_temp = CreateImageEx(canvas_width, canvas_height, core.white);	-- 缓冲层
+	g_temp = CreateImageEx(canvas_width, canvas_height, 0xFFFFFFFF);	-- 缓冲层
 	math.randomseed(os.time())
 	return ""
 end

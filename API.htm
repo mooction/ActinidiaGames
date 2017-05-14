@@ -5,6 +5,8 @@
 </head>
 <body>
 <h1>Actinidia APIs for Lua Script</h1>
+<h3>Version 1.1.1</h3>
+<h3>Date 2017.5.14</h3>
 <pre style="font-size: 1em;">
 /**
  *	Create an image with black background,
@@ -15,6 +17,7 @@
 /**
  *	Create an image with specific background color,
  *	you should use DeleteImage() to release it.
+ *	@param color color 0xAABBGGRR - A: opacity, R: red, G: green, B: blue
  */
 	Image CreateImageEx(width, height, color)
 
@@ -30,18 +33,6 @@
  *	DO NOT release an image TWICE.
  */
 	void DeleteImage(g)
-
-/**
- *	Print text
- *	@param g 	image
- *	@param x 	x left
- *	@param y 	y top
- *	@param str 	string to print
- *	@param FontName font
- *	@param FontSize	size
- *	@param color color 0x00BBGGRR
- */
-	bool PrintText(g, x, y, str, FontName, FontSize, color)
 
 /**
  *	Get width of an image
@@ -106,14 +97,14 @@
  *	Alpha blend gSrc and gDest 
  *	@param gDest destination image
  *	@param gSrc source image
- *	@param SrcAlpha	transparency from 0 to 255
+ *	@param opacity	[0,255]
  */
-	void AlphaBlend(gDest, gSrc, xDest, yDest, SrcAlpha)
+	void AlphaBlend(gDest, gSrc, xDest, yDest, opacity)
 
 /**
  *	Alpha blend gSrc and gDest and stretch
  */
-	void AlphaBlendEx(gDest, gSrc, xDest, yDest, DestWidth, DestHeight, xSrc, ySrc, SrcWidth, SrcHeight, SrcAlpha)
+	void AlphaBlendEx(gDest, gSrc, xDest, yDest, DestWidth, DestHeight, xSrc, ySrc, SrcWidth, SrcHeight, opacity)
 
 /**
  *	Display an image on window
@@ -133,7 +124,7 @@
 
 /**
  *	Set volume
- *	@param volume from 0 to 1
+ *	@param volume [0,1]
  */
 	void SetVolume(sound,volume)
 

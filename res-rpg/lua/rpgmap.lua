@@ -1,7 +1,7 @@
 --[[
 Module:			rpgmap
 Description:	RPG Map
-TODO:
+Usage:
 	global:		rpgmap = load(GetText("res\\lua\\rpgmap.lua"))()
 	current.OnCreate:	rpgmap.prepare(path_scene,logicwidth,logicheight,floor,obj,vir)
 	current.OnClose:	rpgmap.free()
@@ -27,7 +27,7 @@ local rpgmap = {
 		rpgmap.logicheight = lgh
 		rpgmap.pixelwidth = lgw*rpgmap.sidelen
 		rpgmap.pixelheight = lgh*rpgmap.sidelen
-		rpgmap.g_floor = CreateImageEx(rpgmap.sidelen*rpgmap.logicwidth,rpgmap.sidelen*rpgmap.logicheight,0x00000000)
+		rpgmap.g_floor = CreateImageEx(rpgmap.sidelen*rpgmap.logicwidth,rpgmap.sidelen*rpgmap.logicheight,0xFF000000)
 		rpgmap.g_obj = CreateTransImage(rpgmap.sidelen*rpgmap.logicwidth,rpgmap.sidelen*rpgmap.logicheight)
 		rpgmap.g_vir = CreateTransImage(rpgmap.sidelen*rpgmap.logicwidth,rpgmap.sidelen*rpgmap.logicheight)
 		for i=1,rpgmap.logicwidth do
@@ -48,7 +48,7 @@ local rpgmap = {
 	-- OnPaint中可能需要重建g_floor，删除旧的，返回新的
 	reloadfloorlayer = function(floor)
 		DeleteImage(rpgmap.g_floor)
-		rpgmap.g_floor = CreateImageEx(rpgmap.sidelen*rpgmap.logicwidth,rpgmap.sidelen*rpgmap.logicheight,0x00000000)
+		rpgmap.g_floor = CreateImageEx(rpgmap.sidelen*rpgmap.logicwidth,rpgmap.sidelen*rpgmap.logicheight,0xFF000000)
 		for i=1,logicwidth do
 			for j=1,logicheight do
 				PasteToImageEx(rpgmap.g_floor,rpgmap.g_scene,(i-1)*rpgmap.sidelen,(j-1)*rpgmap.sidelen,

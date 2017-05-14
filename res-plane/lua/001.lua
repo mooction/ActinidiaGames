@@ -131,7 +131,7 @@ function current.OnPaint(WndGraphic)
 			PasteToImageEx(g_temp,g_hero_blowup,hero_x-hero_w//2,hero_y-hero_h//2,hero_w,hero_h,
 				0,hero_frame_count//frame_delay*hero_h,hero_w,hero_h)
 		end
-		PrintText(g_temp, 36, bg_h//3, "Game Over", "Arial", 72, 0x00333333)
+		
 		PasteToWndEx(WndGraphic,g_temp,0,0,core.screenwidth,core.screenheight,0,0,bg_w,bg_h)
 		return ""
 	else

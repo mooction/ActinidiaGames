@@ -3,28 +3,30 @@ local current = {}
 --[[ global
 ======================================================]]
 
-z=0
-
 --[[ messages
 ======================================================]]
 
 function current.OnCreate()
+	logo = GetImage("res\\actinidia.png")
 	return ""
 end
 
 -- if need change map, return new map name
 function current.OnPaint(WndGraphic)
 	g= CreateImageEx(core.screenwidth,core.screenheight,core.white)
-	z=z+1
-	PrintText(g, 20, 10, z, 'Lucida Console', 14, core.black)
+	
+	local x = core.screenwidth - GetWidth(logo)
+	local y = core.screenheight - GetHeight(logo)
+	PasteToImage(g, logo, x//2, y//2)
+	-- TODO: Add your code here.
+
 	PasteToWnd(WndGraphic,g)
-	if z>1000 then z=0 end
 	DeleteImage(g)
 	return ""
 end
 
 function current.OnClose()
-	
+	DeleteImage(logo)
 end
 
 function current.OnKeyDown(nChar)
