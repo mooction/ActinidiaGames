@@ -13,7 +13,7 @@ end
 
 -- if need change map, return new map name
 function current.OnPaint(WndGraphic)
-	g= CreateImageEx(core.screenwidth,core.screenheight,core.white)
+	g= CreateImageEx(core.screenwidth,core.screenheight, 0xFFFFFFFF)
 	
 	local x = core.screenwidth - GetWidth(logo)
 	local y = core.screenheight - GetHeight(logo)

@@ -12,49 +12,63 @@ local rpghero = {
 	xhero = 0, 			-- 主角左下角初始坐标
 	yhero = 0,
 
-	herowidth = 32,		-- 常量：英雄图宽度
-	heroheight = 48,
+	hero_width = 32,		-- 常量：英雄图宽度
+	hero_height = 48,
 	direct = 0, 		-- 主角朝向（下左右上0123）
 	frame = 0,
+
+	sight_width=768,
+	sight_height=512,
+	hero_width2=0,
+	hero_height2=0,
 
 	g_hero = nil,
 	xoffset = 0,		-- x视野偏移
 	yoffset = 0,		-- y视野偏移
 
 	prepare = function(path_hero)
+		rpghero.hero_width2 = rpghero.hero_width*canvas_width//rpghero.sight_width
+		rpghero.hero_height2 = rpghero.hero_height*canvas_height//rpghero.sight_height
 		rpghero.yhero = 5*rpgmap.sidelen-1
 		rpghero.g_hero = GetImage(path_hero)
 	end,
 
-	-- OnPaint中将三个图形层叠加到g_temp
+	-- OnPaint中将四个图形层叠加到g_temp
 	draw = function(g_temp)
-		PasteToImageEx(g_temp,rpgmap.g_floor,0,0,canvas_width,canvas_height,
-			rpghero.xoffset,rpghero.yoffset,canvas_width,canvas_height)
-		PasteToImageEx(g_temp,rpgmap.g_obj,0,0,canvas_width,canvas_height,
-			rpghero.xoffset,rpghero.yoffset,canvas_width,canvas_height)
-		PasteToImageEx(g_temp,rpghero.g_hero,rpghero.xhero-rpghero.xoffset,rpghero.yhero-rpghero.heroheight-rpghero.yoffset,rpghero.herowidth,rpghero.heroheight,
-			rpghero.herowidth*rpghero.frame,rpghero.heroheight*rpghero.direct,rpghero.herowidth,rpghero.heroheight)
-		PasteToImageEx(g_temp,rpgmap.g_vir,0,0,canvas_width,canvas_height,
-			rpghero.xoffset,rpghero.yoffset,canvas_width,canvas_height)
+		-- 创建一个缓冲层，把四层叠加到这里，这样做的目的是不用进行四次拉伸
+		local g = CreateImage(rpghero.sight_width,rpghero.sight_height)
+
+		PasteToImageEx(g,rpgmap.g_floor,0,0,rpghero.sight_width,rpghero.sight_height,
+			rpghero.xoffset,rpghero.yoffset,rpghero.sight_width,rpghero.sight_height)
+		PasteToImageEx(g,rpgmap.g_obj,0,0,rpghero.sight_width,rpghero.sight_height,
+			rpghero.xoffset,rpghero.yoffset,rpghero.sight_width,rpghero.sight_height)
+		PasteToImageEx(g,rpghero.g_hero,rpghero.xhero-rpghero.xoffset,rpghero.yhero-rpghero.hero_height-rpghero.yoffset,rpghero.hero_width,rpghero.hero_height,
+			rpghero.hero_width*rpghero.frame,rpghero.hero_height*rpghero.direct,rpghero.hero_width,rpghero.hero_height)
+		PasteToImageEx(g,rpgmap.g_vir,0,0,rpghero.sight_width,rpghero.sight_height,
+			rpghero.xoffset,rpghero.yoffset,rpghero.sight_width,rpghero.sight_height)
+
+		-- 最后一次性进行拉伸，这样效率更高
+		PasteToImageEx(g_temp,g,0,0,canvas_width,canvas_height,0,0,rpghero.sight_width,rpghero.sight_height)
+		DeleteImage(g)
 	end,
 
 	-- OnPaint中计算视野偏移量
 	calcoffset = function()
 		if rpghero.direct == 1 or rpghero.direct == 2 then
-			if rpghero.xhero<canvas_width//2 then
+			if rpghero.xhero < rpghero.sight_width//2 then
 				rpghero.xoffset = 0
-			elseif rpghero.xhero > rpgmap.pixelwidth - canvas_width//2 then
-				rpghero.xoffset = rpgmap.pixelwidth - canvas_width
+			elseif rpghero.xhero > rpgmap.pixelwidth - rpghero.sight_width//2 then
+				rpghero.xoffset = rpgmap.pixelwidth - rpghero.sight_width
 			else
-				rpghero.xoffset = rpghero.xhero - canvas_width//2 
+				rpghero.xoffset = rpghero.xhero - rpghero.sight_width//2 
 			end
 		else
-			if rpghero.yhero<canvas_height//2 then
+			if rpghero.yhero < rpghero.sight_height//2 then
 				rpghero.yoffset = 0
-			elseif rpghero.yhero > rpgmap.pixelheight - canvas_height//2 then
-				rpghero.yoffset = rpgmap.pixelheight - canvas_height
+			elseif rpghero.yhero > rpgmap.pixelheight - rpghero.sight_height//2 then
+				rpghero.yoffset = rpgmap.pixelheight - rpghero.sight_height
 			else
-				rpghero.yoffset = rpghero.yhero - canvas_height//2 
+				rpghero.yoffset = rpghero.yhero - rpghero.sight_height//2 
 			end
 		end
 	end,

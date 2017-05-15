@@ -10,8 +10,8 @@ local current = {}
 
 --[[ 全局定义
 ======================================================]]
-canvas_width=768
-canvas_height=512
+canvas_width=1024
+canvas_height=682
 
 hero_speed = 0 			-- 主角运动速度（走2，跑4）
 hero_slowfeet = 0 		-- 防止脚发生鬼畜
@@ -28,7 +28,7 @@ mouse_y = 0
 ======================================================]]
 
 function current.OnCreate()
-	printer.prepare("res\\pics\\texts\\002.png",36)
+	printer.prepare("res\\pics\\texts\\003.png",36)
 	rpgcommon.prepare("res\\pics\\skin\\conversation-box.png","res\\pics\\skin\\message.png")
 	rpgmap.prepare("res\\scene\\land_0.png",logicwidth,logicheight,floor,obj,vir)
 	rpghero.prepare("res\\role\\npc\\01.png")
@@ -97,8 +97,7 @@ function current.OnPaint(WndGraphic)
 	rocker.draw(g_temp,mouse_x,mouse_y)
 	abkey.draw(g_temp)
 	
-	PasteToWndEx(WndGraphic,g_temp,0,0,core.screenwidth,core.screenheight,
-		0,0,canvas_width,canvas_height)	-- 显示到屏幕上
+	PasteToWnd(WndGraphic,g_temp)
 	DeleteImage(g_temp)
 	return ""
 end
