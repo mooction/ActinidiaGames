@@ -92,7 +92,8 @@ function current.OnPaint(WndGraphic)
 	rocker.draw(g_temp,mouse_x,mouse_y)
 	abkey.draw(g_temp)
 
-	PasteToWnd(WndGraphic,g_temp)
+	PasteToWndEx(WndGraphic,g_temp,0,0,core.screenwidth,core.screenheight,
+		0,0,canvas_width,canvas_height)
 	DeleteImage(g_temp)
 	return ""
 end
