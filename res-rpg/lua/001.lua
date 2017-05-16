@@ -109,7 +109,6 @@ function current.OnClose()
 	StopSound(bgm)
 	DeleteImage(g_portrait)
 	DeleteImage(g_portrait2)
-	DeleteImage(g_loading)
 end
 
 function current.OnKeyDown(nChar)

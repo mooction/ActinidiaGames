@@ -18,17 +18,17 @@ local rpgcommon = {
 		rpgcommon.g_box = GetImage(path_box)
 		rpgcommon.g_msgbox = GetImage(path_msgbox)
 
-		rpgcommon.dx_box = (core.screenwidth - GetWidth(rpgcommon.g_box))//2
-		rpgcommon.dy_box = core.screenheight - GetHeight(rpgcommon.g_box)
+		rpgcommon.dx_box = (canvas_width - GetWidth(rpgcommon.g_box))//2
+		rpgcommon.dy_box = canvas_height - GetHeight(rpgcommon.g_box)
 
-		rpgcommon.dx_msg = (core.screenwidth - GetWidth(rpgcommon.g_msgbox))//2
-		rpgcommon.dy_msg = (core.screenheight - GetHeight(rpgcommon.g_msgbox))//2
+		rpgcommon.dx_msg = (canvas_width - GetWidth(rpgcommon.g_msgbox))//2
+		rpgcommon.dy_msg = (canvas_height - GetHeight(rpgcommon.g_msgbox))//2
 	end,
 
 	-- 显示交谈框
 	talk = function(g, g_portrait, id_title, id_text)
 		PasteToImage(g, rpgcommon.g_box, rpgcommon.dx_box, rpgcommon.dy_box)
-		PasteToImage(g, g_portrait, rpgcommon.dx_box, core.screenheight-GetHeight(g_portrait))
+		PasteToImage(g, g_portrait, rpgcommon.dx_box, canvas_height-GetHeight(g_portrait))
 		printer.out(g, rpgcommon.dx_box+160, rpgcommon.dy_box+16, id_title, 0xff)
 		printer.out(g, rpgcommon.dx_box+160, rpgcommon.dy_box+46, id_text, 0xff)
 	end,
