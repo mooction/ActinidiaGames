@@ -29,7 +29,8 @@ mouse_y = 0
 
 function current.OnCreate()
 	printer.prepare("res\\pics\\texts\\001.png",36)
-	rpgcommon.prepare("res\\pics\\skin\\conversation-box.png","res\\pics\\skin\\message.png")
+	rpgcommon.prepare("res\\pics\\skin\\conversation-box.png","res\\pics\\skin\\message.png",
+		"res\\pics\\skin\\dialog.png","res\\pics\\skin\\ok_cancel.png")
 	rpgmap.prepare("res\\scene\\pokemon_1.png",logicwidth,logicheight,floor,obj,vir)
 	rpghero.prepare("res\\role\\npc\\01.png")
 	rocker.prepare("res\\pics\\skin\\circle.png", "res\\pics\\skin\\circle_touch.png")
