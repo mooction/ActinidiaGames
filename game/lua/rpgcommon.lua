@@ -2,7 +2,7 @@
 Module:			rpgcommon
 Description:	RPG common functions
 Usage:
-	global:		rpgcommon = load(GetText("res\\lua\\rpgcommon.lua"))()
+	global:		rpgcommon = load(GetText("lua/rpgcommon.lua"))()
 	current.OnCreate:	rpgcommon.prepare(path_box, path_messagebox)
 	current.OnClose:	rpgcommon.free()
 ]]

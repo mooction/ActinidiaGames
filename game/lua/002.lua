@@ -1,9 +1,9 @@
-printer = load(GetText("res\\lua\\printer.lua"))()
-rpgcommon = load(GetText("res\\lua\\rpgcommon.lua"))()
-rpgmap = load(GetText("res\\lua\\rpgmap.lua"))()
-rpghero = load(GetText("res\\lua\\rpghero.lua"))()
-rocker = load(GetText("res\\lua\\rocker.lua"))()
-abkey = load(GetText("res\\lua\\abkey.lua"))()
+printer = load(GetText("lua/printer.lua"))()
+rpgcommon = load(GetText("lua/rpgcommon.lua"))()
+rpgmap = load(GetText("lua/rpgmap.lua"))()
+rpghero = load(GetText("lua/rpghero.lua"))()
+rocker = load(GetText("lua/rocker.lua"))()
+abkey = load(GetText("lua/abkey.lua"))()
 local current = {}
 --注意保存lua编码为UTF-8
 
@@ -28,21 +28,21 @@ mouse_y = 0
 ======================================================]]
 
 function current.OnCreate()
-	printer.prepare("res\\pics\\texts\\002.png",36)
-	rpgcommon.prepare("res\\pics\\skin\\conversation-box.png","res\\pics\\skin\\message.png",
-		"res\\pics\\skin\\dialog.png","res\\pics\\skin\\ok_cancel.png")
-	rpgmap.prepare("res\\scene\\land_0.png",logicwidth,logicheight,floor,obj,vir)
-	rpghero.prepare("res\\role\\npc\\01.png")
-	rocker.prepare("res\\pics\\skin\\circle.png", "res\\pics\\skin\\circle_touch.png")
-	abkey.prepare( "res\\pics\\skin\\key_a.png", "res\\pics\\skin\\key_b.png")
+	printer.prepare("pics/texts/002.png",36)
+	rpgcommon.prepare("pics/skin/conversation-box.png","pics/skin/message.png",
+		"pics/skin/dialog.png","pics/skin/ok_cancel.png")
+	rpgmap.prepare("scene/land_0.png",logicwidth,logicheight,floor,obj,vir)
+	rpghero.prepare("role/npc/01.png")
+	rocker.prepare("pics/skin/circle.png", "pics/skin/circle_touch.png")
+	abkey.prepare( "pics/skin/key_a.png", "pics/skin/key_b.png")
 
-	bgm = GetSound("res\\sound\\bgm\\In the Night Garden Closing Theme.mp3",true)
+	bgm = GetSound("sound/bgm/In the Night Garden Closing Theme.mp3",true)
 	SetVolume(bgm,0.5)
 	PlaySound(bgm)
 
-	g_portrait = GetImage("res\\role\\portrait\\01-1.png")
-	g_portrait2 = GetImage("res\\role\\portrait\\01-3.png")
-	g_portrait3 = GetImage("res\\role\\portrait\\01-4.png")
+	g_portrait = GetImage("role/portrait/01-1.png")
+	g_portrait2 = GetImage("role/portrait/01-3.png")
+	g_portrait3 = GetImage("role/portrait/01-4.png")
 	return ""
 end
 
@@ -79,7 +79,7 @@ function current.OnPaint(WndGraphic)
 		elseif do_id == 4 then
 			rpgcommon.talk(g_temp,g_portrait3,1,3)
 		elseif do_id == 5 then
-			do return "res\\lua\\001.lua" end	-- 切换场景		
+			do return "lua/001.lua" end	-- 切换场景		
 		else
 			do_event = false
 			do_id = 0
@@ -153,7 +153,7 @@ function current.OnKeyUp(nChar)
 		if (4 == hero_speed) then hero_speed = 2 end
 	elseif nChar == core.vk["VK_F4"] then
 		if Screenshot() then
-			local bgm = GetSound("res\\sound\\core\\screenshot.wav",false)
+			local bgm = GetSound("sound/core/screenshot.wav",false)
 			PlaySound(bgm)
 		end
 	end

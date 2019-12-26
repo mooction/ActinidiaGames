@@ -2,7 +2,7 @@
 Module:			film
 Description:	film implement
 Usage:
-	global:		film = load(GetText("res\\lua\\film.lua"))()
+	global:		film = load(GetText("lua/film.lua"))()
 	current.OnCreate:	film.add(path_image, id_string)
 	current.OnPaint:	film.play(g_temp)
 	current.OnClose:	film.free()

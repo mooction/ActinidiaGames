@@ -2,7 +2,7 @@
 Module:			rocker
 Description:	Rocker implement
 Usage:
-	global:		rocker = load(GetText("res\\lua\\rocker.lua"))()
+	global:		rocker = load(GetText("lua/rocker.lua"))()
 	current.OnCreate:	rocker.prepare(path_circle, path_circle_touch)
 	current.OnPaint:	rocker.draw(g_temp, mouse_x, mouse_y)
 	current.OnClose:	rocker.free()

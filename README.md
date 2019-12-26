@@ -2,21 +2,13 @@
 
 ## What's this
 
-These are games on [Actinidia](https://github.com/mooction/Actinidia).
+These are games for [Actinidia](https://github.com/mooction/Actinidia).
 
 ## How to play
 
 **Windows**
 
-* For example, if you want to play *rpg*, rename `res-rpg` with `res` 
-* Execute `DirectMode.bat` to play.
-
-**Android**
-
-* Download [ActinidiaOnAndroid](http://moooc.cc/actinidia.apk) and install
-* Download games with it.
-* If you have built your own game, copy it to `sdcard/ActinidiaGames`
-* Launch Actinidia and choose a local game. (If failed, make sure you have SDCard permission.)
+You can drag any resource file (`*.res`) onto the program to launch the game. If no resource file specified, the program will run scripts in the `game.res` file of current directory. If no such file in the directory, the program will be under *direct mode* and launch scripts in the `game` folder.
 
 Snapshots:
 * [RPG](http://7nas1f.com1.z0.glb.clouddn.com/actinidia_prev1.png)
@@ -28,26 +20,14 @@ Snapshots:
 
 ## How to build games
 
-* Edit scripts in `res\lua\`, do not modify `main.lua` and `core.lua`.
+* Edit scripts in `lua/`, do not modify `main.lua` and `core.lua`.
 * Use `lua.exe` to check syntax.
 * Use `SaveSetting(key,value)` to debug.
 * Use `ActinidiaMapEditor.exe` to build tile maps.
-* Use `IMGLinker` to put images together.
+* Use `Tools.exe` to put images together and build **resource pack**.
 
 > *ActinidiaMapEditor* load images in `res\scene`.
 
 ## Attention
 
 **Do NOT use non-ascii characters in file path!** That will cause some bugs.
-
-## How to publish
-
-**Windows**
-
-* Drag `res` folder onto `APacker.exe`
-* Pack `ActinidiaGo.exe`, `bass.dll`, `res.pak`, `res.dat`
-* Share with others
-
-**Android**
-
-Please visit [](http://bbs.moooc.cc/) to submit your application. We will upload your game after verified.

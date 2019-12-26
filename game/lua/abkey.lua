@@ -2,7 +2,7 @@
 Module:			abkey
 Description:	AB Key
 Usage:
-	global:		abkey = load(GetText("res\\lua\\abkey.lua"))()
+	global:		abkey = load(GetText("lua/abkey.lua"))()
 	current.OnCreate:	abkey.prepare(path_keya, path_keyb)
 	current.OnPaint:	abkey.draw(g_temp)
 	current.OnClose:	abkey.free()

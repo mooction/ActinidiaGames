@@ -129,22 +129,22 @@ end
 
 function current.OnCreate()
 	-- 加载资源
-	g_bg= GetImage("res\\img\\bg.png")
-	g_caption= GetImage("res\\img\\caption.png")
-	g_numbers= GetImage("res\\img\\number.png")
-	g_pipe_top= GetImage("res\\img\\pipe_top.png")
-	g_pipe_bottom= GetImage("res\\img\\pipe_bottom.png")
-	g_birds= GetImage("res\\img\\birds.png")
-	g_scoreboard= GetImage("res\\img\\score.png")
-	g_numberss= GetImage("res\\img\\number_s.png")
-	g_demo= GetImage("res\\img\\refexon_demo.png")
+	g_bg= GetImage("img/bg.png")
+	g_caption= GetImage("img/caption.png")
+	g_numbers= GetImage("img/number.png")
+	g_pipe_top= GetImage("img/pipe_top.png")
+	g_pipe_bottom= GetImage("img/pipe_bottom.png")
+	g_birds= GetImage("img/birds.png")
+	g_scoreboard= GetImage("img/score.png")
+	g_numberss= GetImage("img/number_s.png")
+	g_demo= GetImage("img/refexon_demo.png")
 
-	s_die = GetSound("res\\sound\\die.wav", false)
-	s_hit = GetSound("res\\sound\\hit.wav", false)
-	s_point = GetSound("res\\sound\\point.wav", false)
-	s_screenshot = GetSound("res\\sound\\screenshot.wav", false)
-	s_swooshing = GetSound("res\\sound\\swooshing.wav", false)
-	s_wing = GetSound("res\\sound\\wing.wav", false)
+	s_die = GetSound("sound/die.wav", false)
+	s_hit = GetSound("sound/hit.wav", false)
+	s_point = GetSound("sound/point.wav", false)
+	s_screenshot = GetSound("sound/screenshot.wav", false)
+	s_swooshing = GetSound("sound/swooshing.wav", false)
+	s_wing = GetSound("sound/wing.wav", false)
 
 	-- 准备
 	g_temp = CreateImageEx(canvas_width, canvas_height, 0xFFFFFFFF);	-- 缓冲层

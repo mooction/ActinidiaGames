@@ -55,45 +55,45 @@ end
 ======================================================]]
 
 function current.OnCreate()
-	g_bg = GetImage("res\\img\\background.png")
+	g_bg = GetImage("img/background.png")
 	bg_w = GetWidth(g_bg)
 	bg_h = GetHeight(g_bg)
-	g_hero = GetImage("res\\img\\hero.png")
-	g_hero_blowup = GetImage("res\\img\\hero_blowup.png")
+	g_hero = GetImage("img/hero.png")
+	g_hero_blowup = GetImage("img/hero_blowup.png")
 	hero_w = GetWidth(g_hero)
 	hero_h = GetHeight(g_hero)//2
 
-	g_button = GetImage("res\\img\\button.png")
+	g_button = GetImage("img/button.png")
 	btn_w = GetWidth(g_button)
 	btn_h = GetHeight(g_button)//4
 
-	g_enemy1 = GetImage("res\\img\\enemy1.png")
+	g_enemy1 = GetImage("img/enemy1.png")
 	e1_h = GetHeight(g_enemy1)
-	--g_enemy2 = GetImage("res\\img\\enemy2.png")
+	--g_enemy2 = GetImage("img/enemy2.png")
 	--e2_w = GetWidth(g_enemy2)
 	--e2_h = GetHeight(g_enemy2)//2
-	--g_enemy3 = GetImage("res\\img\\enemy3.png")
+	--g_enemy3 = GetImage("img/enemy3.png")
 
-	g_enemy1_blowup = GetImage("res\\img\\enemy1_blowup.png")
+	g_enemy1_blowup = GetImage("img/enemy1_blowup.png")
 	e1_blow_w = GetWidth(g_enemy1_blowup)
 	e1_blow_h = GetHeight(g_enemy1_blowup)//4
 	e1_crash_r = e1_blow_w - 4
 
-	g_bullet1 = GetImage("res\\img\\bullet1.png")
-	g_bullet2 = GetImage("res\\img\\bullet2.png")
+	g_bullet1 = GetImage("img/bullet1.png")
+	g_bullet2 = GetImage("img/bullet2.png")
 
 	g_temp = CreateImage(bg_w,bg_h)
 
-	s_bgm = GetSound("res\\sound\\game_music.mp3",true)
+	s_bgm = GetSound("sound/game_music.mp3",true)
 	PlaySound(s_bgm)
-	s_btn = GetSound("res\\sound\\button.mp3",false)
-	s_bullet = GetSound("res\\sound\\bullet.mp3",false)
-	s_gameover = GetSound("res\\sound\\game_over.mp3",false)
+	s_btn = GetSound("sound/button.mp3",false)
+	s_bullet = GetSound("sound/bullet.mp3",false)
+	s_gameover = GetSound("sound/game_over.mp3",false)
 
-	--s_big_spaceship_flying = GetSound("res\\sound\\big_spaceship_flying.mp3",false)
-	s_e1_down = GetSound("res\\sound\\enemy1_down.mp3",false)
-	s_e2_down = GetSound("res\\sound\\enemy2_down.mp3",false)
-	--s_e3_down = GetSound("res\\sound\\enemy3_down.mp3",false)
+	--s_big_spaceship_flying = GetSound("sound/big_spaceship_flying.mp3",false)
+	s_e1_down = GetSound("sound/enemy1_down.mp3",false)
+	s_e2_down = GetSound("sound/enemy2_down.mp3",false)
+	--s_e3_down = GetSound("sound/enemy3_down.mp3",false)
 
 	game_start()
 

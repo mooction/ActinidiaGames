@@ -2,7 +2,7 @@
 Module:			printer
 Description:	text printer
 Usage:
-	global:		printer = load(GetText("res\\lua\\printer.lua"))()
+	global:		printer = load(GetText("lua/printer.lua"))()
 	current.OnCreate:	printer.prepare(path_text_image, line_height)
 	current.OnPaint:	printer.out(g_temp, xDest, yDest, id_string, opacity)
 	current.OnClose:	printer.free()

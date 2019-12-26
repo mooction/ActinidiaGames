@@ -1,9 +1,9 @@
 -- entrance
-core = load(GetText("res\\lua\\core.lua"))()
+core = load(GetText("lua/core.lua"))()
 
 local custom = nil
 function OnCreate()
-	script = load(GetText("res\\lua\\001.lua"))
+	script = load(GetText("lua/001.lua"))
 	if not script then 
 		do return "cannot load specific script" end 
 	end
@@ -13,13 +13,11 @@ function OnCreate()
 end
 
 function OnPaint(WndGraphic)
-	local newmap = custom.OnPaint(WndGraphic)
-	-- get new path
-	if newmap ~= "" then
-		script = load(GetText(newmap))
+	local next_script = custom.OnPaint(WndGraphic)
+	if next_script ~= "" then
+		script = load(GetText(next_script))
 		if script then 
 			custom.OnClose()	-- clean
-			EmptyStack()		-- free memory
 			custom = script()
 			custom.OnCreate()	-- enter
 		end

@@ -2,7 +2,7 @@
 Module:			rpgmap
 Description:	RPG Map
 Usage:
-	global:		rpgmap = load(GetText("res\\lua\\rpgmap.lua"))()
+	global:		rpgmap = load(GetText("lua/rpgmap.lua"))()
 	current.OnCreate:	rpgmap.prepare(path_scene,logicwidth,logicheight,floor,obj,vir)
 	current.OnClose:	rpgmap.free()
 ]]
