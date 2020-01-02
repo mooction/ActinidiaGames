@@ -2,7 +2,7 @@ local current = {}
 
 --[[ global
 ======================================================]]
-shoot_delay = 30
+shoot_delay = 20
 bullet_delay = 10
 enemy_delay = 10
 frame_delay = 8
