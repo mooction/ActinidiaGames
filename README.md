@@ -11,22 +11,22 @@ These are games for [Actinidia](https://github.com/mooction/Actinidia).
 You can drag any resource file (`*.res`) onto the program to launch the game. If no resource file specified, the program will run scripts in the `game.res` file of current directory. If no such file in the directory, the program will be under *direct mode* and launch scripts in the `game` folder.
 
 Snapshots:
-* [RPG](http://7nas1f.com1.z0.glb.clouddn.com/actinidia_prev1.png)
-* [RPG](http://7nas1f.com1.z0.glb.clouddn.com/actinidia_prev2.png)
-* [RPG](http://7nas1f.com1.z0.glb.clouddn.com/actinidia_prev3.png)
-* [FlappyBird](http://7nas1f.com1.z0.glb.clouddn.com/flappybird-1.png)
-* [FlappyBird](http://7nas1f.com1.z0.glb.clouddn.com/flappybird-2.png)
-* [FlappyBird](http://7nas1f.com1.z0.glb.clouddn.com/flappybird-3.png)
+* [RPG](https://moooc.oss-cn-shenzhen.aliyuncs.com/blog/actinidia_prev1.png)
+* [RPG](https://moooc.oss-cn-shenzhen.aliyuncs.com/blog/actinidia_prev2.png)
+* [RPG](https://moooc.oss-cn-shenzhen.aliyuncs.com/blog/actinidia_prev3.png)
+* [FlappyBird](https://moooc.oss-cn-shenzhen.aliyuncs.com/blog/flappybird-1.png)
+* [FlappyBird](https://moooc.oss-cn-shenzhen.aliyuncs.com/blog/flappybird-2.png)
+* [FlappyBird](https://moooc.oss-cn-shenzhen.aliyuncs.com/blog/flappybird-3.png)
 
 ## How to build games
 
-* Edit scripts in `lua/`, do not modify `main.lua` and `core.lua`.
+* Edit scripts in `lua/`, **DO NOT** modify `main.lua` and `core.lua`.
 * Use `lua.exe` to check syntax.
 * Use `SaveSetting(key,value)` to debug.
 * Use `ActinidiaMapEditor.exe` to build tile maps.
 * Use `Tools.exe` to put images together and build **resource pack**.
 
-> *ActinidiaMapEditor* load images in `res\scene`.
+> *ActinidiaMapEditor* load images in `res/scene`.
 
 ## Attention
 
