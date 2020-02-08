@@ -18,6 +18,8 @@ Snapshots:
 * [FlappyBird](https://moooc.oss-cn-shenzhen.aliyuncs.com/blog/flappybird-2.png)
 * [FlappyBird](https://moooc.oss-cn-shenzhen.aliyuncs.com/blog/flappybird-3.png)
 
+> Install [Microsoft Visual C++ Redistributable for Visual Studio 2015, 2017 and 2019](https://aka.ms/vs/16/release/vc_redist.x64.exe) for any missing DLL.
+
 ## How to build games
 
 * Edit scripts in `lua/`, **DO NOT** modify `main.lua` and `core.lua`.
