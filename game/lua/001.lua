@@ -1,4 +1,4 @@
-printer = load(GetText("lua/printer.lua"))()
+printer = load(GetText("lua/text_printer.lua"))()
 rpgcommon = load(GetText("lua/rpgcommon.lua"))()
 rpgmap = load(GetText("lua/rpgmap.lua"))()
 rpghero = load(GetText("lua/rpghero.lua"))()
@@ -28,7 +28,7 @@ mouse_y = 0
 ======================================================]]
 
 function current.OnCreate()
-	printer.prepare("pics/texts/001.png",36)
+	printer.prepare(printer, "pics/texts/001.png", 36)
 	rpgcommon.prepare("pics/skin/conversation-box.png","pics/skin/message.png",
 		"pics/skin/dialog.png","pics/skin/ok_cancel.png")
 	rpgmap.prepare("scene/pokemon_1.png",logicwidth,logicheight,floor,obj,vir)
@@ -105,7 +105,7 @@ function current.OnClose()
 	rpgcommon.free()
 	rocker.free()
 	abkey.free()
-	printer.free()
+	printer.free(printer)
 
 	StopSound(bgm)
 	DeleteImage(g_portrait)
