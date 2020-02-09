@@ -24,9 +24,9 @@ These are games for [Actinidia](https://github.com/mooction/Actinidia).
 
 ## Attention
 
-**Do NOT use non-ascii characters in file path!** That will cause some bugs.
+**Do NOT use non-ascii characters in file path!** That will cause some problems.
 
-## Snapshots:
+## Snapshots
 
 * [RPG](https://moooc.oss-cn-shenzhen.aliyuncs.com/blog/actinidia_prev1.png)
 * [RPG](https://moooc.oss-cn-shenzhen.aliyuncs.com/blog/actinidia_prev2.png)

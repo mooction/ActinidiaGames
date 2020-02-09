@@ -6,7 +6,7 @@
 <body>
 <h1>Actinidia APIs for Lua Script</h1>
 <h3>Version 1.1.2</h3>
-<h3>Date 2019.12.26</h3>
+<h3>Date 2020.2.9</h3>
 <pre style="font-size: 1em;font-family: consolas;">
 /**
  *  Create an image with black background,
@@ -48,7 +48,7 @@
 
 /**
  *  Get text from package.
- *  @param pathname File path. eg. 'res\\lua\\002.lua'
+ *  @param pathname File path. eg. 'lua/002.lua'
  *  @return "" If fails, content if success.
  */
     string GetText(pathname)
@@ -56,7 +56,7 @@
 /**
  *  Load an image from package.
  *  you should use DeleteImage() to release it.
- *  @param pathname File path. eg. 'res\\img\\1.jpg'
+ *  @param pathname File path. eg. 'img/1.jpg'
  *  @return nil if fails, image if success.
  */
     image GetImage(pathname)
@@ -64,7 +64,7 @@
 /**
  *  Load music from package.
  *  If b_loop set true, you should StopSound() manually.
- *  @param pathname File path. eg. 'res\\bgm\\1.mp3'
+ *  @param pathname File path. eg. 'bgm/1.mp3'
  *  @return nil if fails, sound if success.
  */
     sound GetSound(pathname, b_loop)
@@ -117,7 +117,7 @@
     void PasteToWndEx(WndGraphic, g, xDest, yDest, DestWidth, DestHeight, xSrc, ySrc, SrcWidth, SrcHeight)
 
 /**
- *  Create a image with Black background,
+ *  Stop a background music.
  *  DO NOT stop a sound TWICE.
  */
     void StopSound(sound)
@@ -130,7 +130,6 @@
 
 /**
  *  Play sound
- *  Make sure the sound exists.
  */
     void PlaySound(sound)
 
@@ -142,7 +141,7 @@
 
 /**
  *  Get setting
- *  Actinidia will load settings from "res\\data" on first start
+ *  Actinidia will load settings from "data" on first start
  *  @param key string
  *  @return value string, nil if not exist
  */
@@ -151,7 +150,7 @@
 
 /**
  *  Save setting
- *  Actinidia will save settings to "res\\data" on quit
+ *  Actinidia will save settings to "data" on quit
  *  @param key string
  *  @param value string
  */
