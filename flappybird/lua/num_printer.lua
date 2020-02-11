@@ -20,50 +20,29 @@ local printer = {
         this.numberPerLine = GetWidth(this.g_num) // wNum
     end,
 
-    __xpos__ = function( this, n )
+    __xpos__ = function(this, n)
         return n % this.numberPerLine * this.wNum
     end,
 
-    __ypos__ = function( this, n )
+    __ypos__ = function(this, n)
         return n // this.numberPerLine * this.hNum
     end,
 
     out = function(this, g_temp, xDest, yDest, number)
-        if number < 10 then
+        local i = number
+        local n = 0
+        local arr = {}
+        while i//10 ~= 0 do
+            arr[n] = i % 10
+            i = i//10
+            n = n + 1
+        end
+        arr[n] = i
+        for i=0, n do
             PasteToImageEx(g_temp, this.g_num,
-                xDest, yDest,
+                xDest + this.wNum*i, yDest,
                 this.wNum, this.hNum,
-                this.__xpos__(this, number), this.__ypos__(this, number),
-                this.wNum, this.hNum)
-        elseif number < 100 then
-            PasteToImageEx(g_temp, this.g_num,
-                xDest, yDest,
-                this.wNum, this.hNum,
-                this.__xpos__(this, number//10), this.__ypos__(this, number//10),
-                this.wNum, this.hNum)
-            PasteToImageEx(g_temp, this.g_num,
-                xDest + this.wNum, yDest,
-                this.wNum, this.hNum,
-                this.__xpos__(this, number % 10), this.__ypos__(this, number%10),
-                this.wNum, this.hNum)
-        else
-            tnumber = number//100;  -- 百位数
-            PasteToImageEx(g_temp, this.g_num,
-                xDest, yDest,
-                this.wNum, this.hNum,
-                this.__xpos__(this, tnumber), this.__ypos__(this, tnumber),
-                this.wNum, this.hNum)
-            tnumber = number % 100;         -- 后两位数
-            PasteToImageEx(g_temp, this.g_num,
-                xDest + this.wNum, yDest,
-                this.wNum, this.hNum,
-                this.__xpos__(this, tnumber//10), this.__ypos__(this, tnumber//10),
-                this.wNum, this.hNum)
-            tnumber = tnumber % 10;         -- 个位数
-            PasteToImageEx(g_temp, this.g_num,
-                xDest + this.wNum + this.wNum, yDest,
-                this.wNum, this.hNum,
-                this.__xpos__(this, tnumber), this.__ypos__(this, tnumber),
+                this.__xpos__(this, arr[n-i]), this.__ypos__(this, arr[n-i]),
                 this.wNum, this.hNum)
         end
     end,
