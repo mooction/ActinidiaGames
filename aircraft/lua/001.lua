@@ -2,53 +2,55 @@ local current = {}
 
 --[[ global
 ======================================================]]
-shoot_delay = 20
-bullet_delay = 10
-enemy_delay = 10
-frame_delay = 8
+canvas_width = 480
+canvas_height = 852
+num_printer = load(GetText("lua/num_printer.lua"))
 
-max_bullets = 30
-bullet_left = {}
-bullet_right = {}
-bullet_power = 1
+-- Constants
+MOVE_SPEED_BULLET = 10
+MOVE_SPEED_ENEMIY1 = 10
+MOVE_SPEED_ENEMIY2 = 10
+MOVE_SPEED_ENEMIY3 = 10
 
-max_enemy1 = 10
-enemy1 = {}
-enemy2 = {}
--- enemy3 is only one
-enemy1_health = 1
-enemy2_health = 4
-enemy3_health = 50
+INTERVAL_ENEMY1 = 20
+-- INTERVAL_ENEMY2 = 10
+-- INTERVAL_ENEMY3 = 10
+HERO_HEALTH = 5
+ENEMY1_HEALTH = 1
+-- ENEMY2_HEALTH = 4
+-- ENEMY3_HEALTH = 50
+
+hero = {
+    x_center = canvas_width//2,
+    y_center = canvas_height-20,
+    health = HERO_HEALTH,
+    left_bullets = {},
+    right_bullets = {}
+}
+bMouseDown = false
+bPause = false
+counter = 0
 
 function game_start()
-    shoot_count = 0
-    hero_frame_count = 0
-    hero_life = 1
-
-    bMouseDown = 0
+    -- the counter is used for all animations, and a rand value makes the game more random.
+    counter = math.random(0, 17)
     bPause = false
+    hero = {
+        move_speed = 6, -- px/17ms
+        shoot_interval = 20,
+        x_center = canvas_width//2,
+        y_center = canvas_height-20,
+        health = HERO_HEALTH,
+        left_bullets = {},
+        right_bullets = {}
+    }
+    enemies_1 = {}
+    -- enemies_2 = {}
+    -- enemies_3 = {}
+end
 
-    -- initial position
-    last_mouse_x = bg_w//2
-    last_mouse_y = bg_h-20
-    mouse_x = last_mouse_x
-    mouse_y = last_mouse_y
-
-    -- initialize bullets
-    for i=1,max_bullets do
-        bullet_left[i] = {y=0,x=0}
-        bullet_right[i] = {y=0,x=hero_w}
-    end
-
-    -- initialize enemies
-    for i=1,max_enemy1 do
-        enemy1[i] = {
-            y = -e1_h*i*2,
-            x = math.random(bg_w),
-            health = enemy1_health,
-            frame = 0
-        }
-    end
+function draw(g)
+    PasteToWndEx(g,g_temp,0,0,core.screenwidth,core.screenheight,0,0,canvas_width,canvas_height)
 end
 
 --[[ messages
@@ -56,186 +58,183 @@ end
 
 function current.OnCreate()
     g_bg = GetImage("img/background.png")
-    bg_w = GetWidth(g_bg)
-    bg_h = GetHeight(g_bg)
-    g_hero = GetImage("img/hero.png")
-    g_hero_blowup = GetImage("img/hero_blowup.png")
-    hero_w = GetWidth(g_hero)
-    hero_h = GetHeight(g_hero)//2
 
-    g_button = GetImage("img/button.png")
-    btn_w = GetWidth(g_button)
-    btn_h = GetHeight(g_button)//4
+    g_num_hero = num_printer()
+    g_num_hero.prepare(g_num_hero, "img/hero.png", 102, 126)
+    g_num_hero_blow = num_printer()
+    g_num_hero_blow.prepare(g_num_hero_blow, "img/hero_blowup.png", 102, 126)
+    g_num_button = num_printer()
+    g_num_button.prepare(g_num_button, "img/button.png", 60, 45)
 
     g_enemy1 = GetImage("img/enemy1.png")
-    e1_h = GetHeight(g_enemy1)
-    --g_enemy2 = GetImage("img/enemy2.png")
-    --e2_w = GetWidth(g_enemy2)
-    --e2_h = GetHeight(g_enemy2)//2
-    --g_enemy3 = GetImage("img/enemy3.png")
-
-    g_enemy1_blowup = GetImage("img/enemy1_blowup.png")
-    e1_blow_w = GetWidth(g_enemy1_blowup)
-    e1_blow_h = GetHeight(g_enemy1_blowup)//4
-    e1_crash_r = e1_blow_w - 4
+    g_num_enemy1_blow = num_printer()
+    g_num_enemy1_blow.prepare(g_num_enemy1_blow, "img/enemy1_blowup.png", 57, 51)
+    g_num_enemy2 = num_printer()
+    g_num_enemy2.prepare(g_num_enemy2, "img/enemy2.png", 69, 99)
+    g_num_enemy2_blow = num_printer()
+    g_num_enemy2_blow.prepare(g_num_enemy2_blow, "img/enemy2_blowup.png", 69, 95)
+    g_num_enemy3 = num_printer()
+    g_num_enemy3.prepare(g_num_enemy3, "img/enemy3.png", 169, 258)
+    g_num_enemy3_blow = num_printer()
+    g_num_enemy3_blow.prepare(g_num_enemy3_blow, "img/enemy3_blowup.png", 165, 261)
 
     g_bullet1 = GetImage("img/bullet1.png")
     g_bullet2 = GetImage("img/bullet2.png")
+    g_temp = CreateImage(canvas_width, canvas_height)
 
-    g_temp = CreateImage(bg_w,bg_h)
+    s_bgm = GetSound("sound/game_music.mp3", true)
+    s_gameover = GetSound("sound/game_over.mp3", false)
+    s_btn = GetSound("sound/button.mp3", false)
+    s_bullet = GetSound("sound/bullet.mp3", false)
+    s_e1_blow = GetSound("sound/enemy1_down.mp3", false)
+    --s_e2_blow = GetSound("sound/enemy2_down.mp3",false)
+    --s_e3_blow = GetSound("sound/enemy3_down.mp3",false)
 
-    s_bgm = GetSound("sound/game_music.mp3",true)
-    PlaySound(s_bgm)
-    s_btn = GetSound("sound/button.mp3",false)
-    s_bullet = GetSound("sound/bullet.mp3",false)
-    s_gameover = GetSound("sound/game_over.mp3",false)
-
-    --s_big_spaceship_flying = GetSound("sound/big_spaceship_flying.mp3",false)
-    s_e1_down = GetSound("sound/enemy1_down.mp3",false)
-    s_e2_down = GetSound("sound/enemy2_down.mp3",false)
-    --s_e3_down = GetSound("sound/enemy3_down.mp3",false)
-
+    math.randomseed(os.time())
     game_start()
-
+    PlaySound(s_bgm)
     return ""
 end
 
 -- if need change map, return new map name
 function current.OnPaint(WndGraphic)
     if bPause then 
-        PasteToWndEx(WndGraphic,g_temp,0,0,core.screenwidth,core.screenheight,0,0,bg_w,bg_h)
+        draw(WndGraphic)
         return ""
     end
-    PasteToImage(g_temp,g_bg,0,0)
-    ----------------------hero-------------------------------
-    local hero_x, hero_y
-    if bMouseDown==1 then
-        hero_x = mouse_x
-        hero_y = mouse_y
-    else
-        hero_x = last_mouse_x
-        hero_y = last_mouse_y
-    end
-    if hero_life>0 then
-        for j=1,max_enemy1 do                                           -- hero crash
-            if (enemy1[j].health>0) and (hero_x-enemy1[j].x)*(hero_x-enemy1[j].x)+(hero_y-enemy1[j].y)*(hero_y-enemy1[j].y)<(e1_crash_r*e1_crash_r) then
-                enemy1[j].health = 0        -- remove the enemy
-                hero_life = hero_life-1
-                if hero_life>0 then PlaySound(s_e2_down) else PlaySound(s_gameover);break end
+    -- background
+    PasteToImage(g_temp, g_bg, 0, 0)
+    -- for all animations, this is necessary
+    counter = counter + 1
+
+    -- hero alive
+    if hero.health > 0 then
+        if bMouseDown then
+            -- move hero
+            if math.abs(mouse_x - hero.x_center) > hero.move_speed then
+                if mouse_x > hero.x_center then
+                    hero.x_center = hero.x_center + hero.move_speed
+                else
+                    hero.x_center = hero.x_center - hero.move_speed
+                end
             end
-        end
-    end
-    hero_frame_count = hero_frame_count+1
-    if hero_life==0 then
-        if hero_frame_count ~= frame_delay*4 then
-            PasteToImageEx(g_temp,g_hero_blowup,hero_x-hero_w//2,hero_y-hero_h//2,hero_w,hero_h,
-                0,hero_frame_count//frame_delay*hero_h,hero_w,hero_h)
-        end
-        
-        PasteToWndEx(WndGraphic,g_temp,0,0,core.screenwidth,core.screenheight,0,0,bg_w,bg_h)
-        return ""
-    else
-        if hero_frame_count == frame_delay*4 then
-            hero_frame_count = 0
-        end
-        PasteToImageEx(g_temp,g_hero,hero_x-hero_w//2,hero_y-hero_h//2,hero_w,hero_h,
-            0,(hero_frame_count<frame_delay*2)and 0 or hero_h,hero_w,hero_h)
-    end
-    
-    ----------------------bullets-----------------------------
-    for i=1,max_bullets do
-        bullet_left[i].y = bullet_left[i].y - bullet_delay
-        bullet_right[i].y = bullet_right[i].y - bullet_delay
-        if bullet_left[i].y >= 0 then
-            PasteToImage(g_temp,g_bullet1,bullet_left[i].x,bullet_left[i].y)    -- left
-            for j=1,max_enemy1 do
-                if (bullet_left[i].x-enemy1[j].x)*(bullet_left[i].x-enemy1[j].x)
-                    + (bullet_left[i].y-enemy1[j].y)*(bullet_left[i].y-enemy1[j].y)
-                    < (e1_crash_r*e1_crash_r) then 
-                    PlaySound(s_e1_down)
-                    enemy1[j].health = enemy1[j].health - bullet_power          -- hit the target
-                    bullet_left[i].y = -1                                       -- remove this bullet
+            if math.abs(mouse_y - hero.y_center) > hero.move_speed then
+                if mouse_y > hero.y_center then
+                    hero.y_center = hero.y_center + hero.move_speed
+                else
+                    hero.y_center = hero.y_center - hero.move_speed
                 end
             end
         end
-        if bullet_right[i].y >= 0 then
-            PasteToImage(g_temp,g_bullet1,bullet_right[i].x,bullet_right[i].y)  -- right
-            for j=1,max_enemy1 do
-                if (bullet_right[i].x-enemy1[j].x)*(bullet_right[i].x-enemy1[j].x)
-                    + (bullet_right[i].y-enemy1[j].y)*(bullet_right[i].y-enemy1[j].y)
-                    < (e1_crash_r*e1_crash_r) then 
-                    PlaySound(s_e1_down)
-                    enemy1[j].health = enemy1[j].health - bullet_power          -- hit the target
-                    bullet_right[i].y = -1                                      -- remove this bullet
-                end
-            end
-        end
-    end
-
-    if shoot_count == shoot_delay then 
-        -- find an invalid(out of screen) bullet, set as a new bullet.
-        for i=1,max_bullets do
-            if bullet_left[i].y < 0 then
-                bullet_left[i].x = hero_x-36
-                bullet_left[i].y = hero_y-12
-                bullet_right[i].x = hero_x+30
-                bullet_right[i].y = hero_y-12
-                PlaySound(s_bullet)
-                break
-            end
-        end
-        shoot_count = 0
-    end
-    shoot_count = shoot_count + 1
-
-    ----------------------enemies--------------------------------
-    for i=1,max_enemy1 do
-        if enemy1[i].health <= 0 then               -- enemy died
-            enemy1[i].frame = enemy1[i].frame+1
-            if enemy1[i].frame==frame_delay*4 then  -- reset
-                enemy1[i].frame = 0
-                enemy1[i].health = enemy1_health
-                enemy1[i].y = -e1_h
-                enemy1[i].x = math.random(bg_w)
-            else
-                PasteToImageEx(g_temp,g_enemy1_blowup,enemy1[i].x,enemy1[i].y,e1_blow_w,e1_blow_h,
-                    0,enemy1[i].frame//frame_delay*e1_blow_h,e1_blow_w,e1_blow_h)
-            end
-        else
-            enemy1[i].y = enemy1[i].y + enemy_delay -- enemy move
-            if enemy1[i].y < bg_h then
-                PasteToImage(g_temp,g_enemy1,enemy1[i].x,enemy1[i].y)
-            else                                    -- out of screen, reset
-                enemy1[i].y = -e1_h
-                enemy1[i].x = math.random(bg_w)
-            end
-        end
-    end
-
-    -----------------------button--------------------------------
-    if mouse_x < btn_w and mouse_y < btn_h + 4 then
-        PasteToImageEx(g_temp,g_button,0,4,btn_w,btn_h,0,btn_h*3,btn_w,btn_h)
+        g_num_hero.out_(g_num_hero, g_temp,
+            hero.x_center - g_num_hero.wNum//2,
+            hero.y_center - g_num_hero.hNum//2, 0)
     else
-        PasteToImageEx(g_temp,g_button,0,4,btn_w,btn_h,0,btn_h*2,btn_w,btn_h)
+        -- hero died
+        g_num_hero_blow.out_(g_num_hero_blow, g_temp,
+            hero.x_center - g_num_hero_blow.wNum//2,
+            hero.y_center - g_num_hero_blow.hNum//2, 0)
+        draw(WndGraphic)
+        return ""
     end
 
-    PasteToWndEx(WndGraphic,g_temp,0,0,core.screenwidth,core.screenheight,0,0,bg_w,bg_h)
+    if counter % hero.shoot_interval == 0 then
+        PlaySound(s_bullet)
+        -- add bullets
+        hero.left_bullets[#hero.left_bullets + 1] = {
+            x = hero.x_center - 36,
+            y = hero.y_center - 12
+        }
+        hero.right_bullets[#hero.right_bullets + 1] = {
+            x = hero.x_center + 30,
+            y = hero.y_center - 12
+        }
+    end
+
+    -- move bullets and delete those bullets out of screen
+    local out_of_screen_id = nil
+    for k,v in pairs(hero.left_bullets) do
+        v.y = v.y - MOVE_SPEED_BULLET
+        if v.y < 0 then
+            out_of_screen_id = k
+        end
+    end
+    if out_of_screen_id then
+        table.remove(hero.left_bullets, out_of_screen_id)
+    end
+    -- there's only one bullet will be deleted
+    out_of_screen_id = nil
+    for k,v in pairs(hero.right_bullets) do
+        v.y = v.y - MOVE_SPEED_BULLET
+        if v.y < 0 then
+            out_of_screen_id = k
+        end
+    end
+    if out_of_screen_id then
+        table.remove(hero.right_bullets, out_of_screen_id)
+    end
+
+    -- draw bullets
+    for k,v in pairs(hero.left_bullets) do 
+        PasteToImage(g_temp, g_bullet1, v.x, v.y)
+    end
+    for k,v in pairs(hero.right_bullets) do 
+        PasteToImage(g_temp, g_bullet1, v.x, v.y)
+    end
+
+    -- TODO: bullets hit to enemies. not implemented yet.
+
+
+
+    -- generate some enemies 
+    if counter % INTERVAL_ENEMY1 == 0 then
+        enemies_1[#enemies_1 + 1] = {
+            x_center = math.random(1, canvas_width),
+            y_center = 0
+        }
+    end
+
+    -- move enemies and delete those enemies out of screen
+    local out_of_screen_id = nil
+    for k,v in pairs(enemies_1) do
+        v.y_center = v.y_center + MOVE_SPEED_ENEMIY1
+        if v.y_center < 0 then
+            out_of_screen_id = k
+        end
+    end
+    if out_of_screen_id then
+        table.remove(enemies_1, out_of_screen_id)
+    end
+    -- draw enemies
+    for k,v in pairs(enemies_1) do 
+        PasteToImage(g_temp, g_enemy1, v.x_center + GetWidth(g_enemy1)//2, v.y_center + GetHeight(g_enemy1)//2)
+    end
+
+    -- draw pause button
+    if mouse_x < g_num_button.wNum and mouse_y < g_num_button.hNum then
+        -- button pressed
+        g_num_button.out_(g_num_button, g_temp, 0, 0, 3)
+    else
+        g_num_button.out_(g_num_button, g_temp, 0, 0, 2)
+    end
+    draw(WndGraphic)
     return ""
 end
 
 function current.OnClose()
-    DeleteImage(g_hero)
-    DeleteImage(g_hero_blowup)
     DeleteImage(g_bg)
-    DeleteImage(g_button)
     DeleteImage(g_bullet1)
     DeleteImage(g_bullet2)
     DeleteImage(g_enemy1)
-    --DeleteImage(g_enemy2)
-    --DeleteImage(g_enemy3)
-    DeleteImage(g_enemy1_blowup)
-
     DeleteImage(g_temp)
+    g_num_button.free(g_num_button)
+    g_num_hero.free(g_num_hero)
+    g_num_hero_blow.free(g_num_hero_blow)
+    g_num_enemy1_blow.free(g_num_enemy1_blow)
+    g_num_enemy2.free(g_num_enemy2)
+    g_num_enemy2_blow.free(g_num_enemy2_blow)
+    g_num_enemy3.free(g_num_enemy3)
+    g_num_enemy3_blow.free(g_num_enemy3_blow)
     StopSound(s_bgm)
 end
 
@@ -248,28 +247,28 @@ function current.OnKeyUp(nChar)
 end
 
 function current.OnLButtonDown(x,y)
-    if hero_life == 0 then
+    if hero.health == 0 then
         game_start()
-    elseif mouse_x < btn_w and mouse_y < btn_h + 4 then
-        do return end       -- pause clicked
+    elseif x < g_num_button.wNum and y < g_num_button.hNum then
+        -- click pause
     else
-        bMouseDown=1
+        bMouseDown=true
+        mouse_x = x
+        mouse_y = y
     end
 end
 
 function current.OnLButtonUp(x,y)
-    bMouseDown=0
-    if mouse_x < btn_w and mouse_y < btn_h + 4 then
+    bMouseDown=false
+    if x < g_num_button.wNum and y < g_num_button.hNum then
+        -- click pause
         bPause = not bPause
-    else
-        last_mouse_x=x*bg_w//core.screenwidth
-        last_mouse_y=y*bg_h//core.screenheight
     end
 end
 
 function current.OnMouseMove(x,y)
-    mouse_x=x*bg_w//core.screenwidth    -- stretch convert
-    mouse_y=y*bg_h//core.screenheight
+    mouse_x=x
+    mouse_y=y
 end
 
 function current.OnSetFocus()

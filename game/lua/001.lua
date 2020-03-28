@@ -154,8 +154,8 @@ function current.OnKeyUp(nChar)
 end
 
 function current.OnLButtonDown(x,y)
-    local mouse_x = x*canvas_width//core.screenwidth        -- 坐标拉伸
-    local mouse_y = y*canvas_height//core.screenheight
+    local mouse_x = x
+    local mouse_y = y
     if abkey.inKeyA(mouse_x,mouse_y) then
         current.OnKeyDown(core.vk["VK_RETURN"])
     elseif abkey.inKeyB(mouse_x,mouse_y) then
@@ -165,8 +165,8 @@ function current.OnLButtonDown(x,y)
 end
 
 function current.OnLButtonUp(x,y)
-    local mouse_x = x*canvas_width//core.screenwidth        -- 坐标拉伸
-    local mouse_y = y*canvas_height//core.screenheight
+    local mouse_x = x
+    local mouse_y = y
     if abkey.inKeyA(mouse_x,mouse_y) then
         current.OnKeyUp(core.vk["VK_RETURN"])
     elseif abkey.inKeyB(mouse_x,mouse_y) then
@@ -178,8 +178,8 @@ function current.OnLButtonUp(x,y)
 end
 
 function current.OnMouseMove(x,y)
-    mouse_x = x*canvas_width//core.screenwidth      -- 坐标拉伸
-    mouse_y = y*canvas_height//core.screenheight
+    mouse_x = x
+    mouse_y = y
     if isLMouseDown then
         -- 角度-90到270，下左右上0123
         local v = rocker.getDegree(mouse_x,mouse_y)
