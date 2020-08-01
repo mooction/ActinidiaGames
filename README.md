@@ -17,7 +17,7 @@ These are games for [Actinidia](https://github.com/mooction/Actinidia).
 ## How to build games
 
 * Edit scripts in `lua/`, **DO NOT** modify `main.lua` and `core.lua`.
-* Use `Tools.exe` to concatenate images and build **resource pack**. Note that the root folder MUST be named as `game`.
+* Use `Tools.exe` generate `*.res` file. Note that the root folder MUST be named as `game`.
 * Use `ActinidiaMapEditor.exe` to build tile maps. ActinidiaMapEditor load images in `res/scene`.
 
 > A script debugger is on the way. You can now use `lua.exe` to check syntax and use interface `SaveSetting(key,value)` to observe an variable.
