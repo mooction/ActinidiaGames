@@ -1,5 +1,7 @@
 # ActinidiaGames
 
+![logo](https://raw.githubusercontent.com/mooction/Actinidia/master/Actinidia/logo.png)
+
 ## What's this
 
 These are games for [Actinidia](https://github.com/mooction/Actinidia).
@@ -14,6 +16,26 @@ These are games for [Actinidia](https://github.com/mooction/Actinidia).
 
 > Install [Microsoft Visual C++ Redistributable for Visual Studio 2015, 2017 and 2019](https://aka.ms/vs/16/release/vc_redist.x64.exe) for any missing DLL.
 
+**Linux**
+
+1. Install dependencies:
+
+```bash
+sudo apt-get install -y libgtk-3-dev zlib1g-dev libpng-dev libjpeg-dev liblua5.3-dev
+```
+
+2. Install deb package:
+
+```bash
+sudo dpkg -i actinidia_1.0.0_amd64.deb
+```
+
+3. Launch your resource pack:
+
+```bash
+actinidia ./your_game.res
+```
+
 ## How to build games
 
 * Edit scripts in `lua/`, **DO NOT** modify `main.lua` and `core.lua`.
@@ -24,7 +46,7 @@ These are games for [Actinidia](https://github.com/mooction/Actinidia).
 
 ## Attention
 
-**Do NOT use non-ascii characters in file path!** That will cause some problems.
+**Do NOT use non-ascii characters in file path!** That may result in any problem.
 
 ## Snapshots
 
