@@ -21,7 +21,10 @@ These are games for [Actinidia](https://github.com/mooction/Actinidia).
 1. Install dependencies:
 
 ```bash
-sudo apt-get install -y libgtk-3-dev zlib1g-dev libpng-dev libjpeg-dev liblua5.3-dev
+# Debian
+sudo apt-get install -y libgtk-3-0 zlib1g libpng16-16 liblua5.3-0 libjpeg62-turbo
+# Ubuntu
+sudo apt-get install -y libgtk-3-0 zlib1g libpng16-16 liblua5.3-0 libjpeg62
 ```
 
 2. Install deb package:
